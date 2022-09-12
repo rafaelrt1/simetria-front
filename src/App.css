@@ -293,6 +293,11 @@
     align-items: center;
 }
 
+.picker {
+    font-size: 200px;
+    font-size: 1.2rem!important;
+}
+
 @media (max-width: 768px) {
     .container-form {
         width: 90%;

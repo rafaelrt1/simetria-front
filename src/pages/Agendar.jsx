@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useController } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -18,7 +18,6 @@ import {
   Typography,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import moment from "moment";
 
 const Agendar = () => {
   const hostHome = "10.0.0.19";
@@ -55,25 +54,10 @@ const Agendar = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  // const setOptions = () => {
-  //   console.log("teste");
-  //   if (!idServiceSelected) {
-  //     setCustomerOptionServices([]);
-  //     return;
-  //   }
-  //   // return filteredService[0].options !== [];[];
-  //   let filteredService = services.filter((service) => {
-  //     return service.idServico === idServiceSelected;
-  //   });
-  //   console.log(filteredService[0].options);
-  //   setCustomerOptionServices(filteredService[0].options);
-  //   // return filteredService[0].options !== [];
-  // };
-
   const isValidDate = () => {
     let date = getValues("date");
     return (
-      date > new Date().setHours(0, 0, 0, 0) &&
+      date >= new Date().setHours(0, 0, 0, 0) &&
       date.getDay() !== 0 &&
       date.getDay() !== 1
     );
@@ -93,6 +77,8 @@ const Agendar = () => {
     control,
     handleSubmit,
     setValue,
+    setError,
+    clearErrors,
     getValues,
     formState: { isValid, isDirty, errors },
   } = useForm({
@@ -130,8 +116,8 @@ const Agendar = () => {
 
   const getServices = () => {
     try {
-      fetch(`http://${hostHome}:5000/servicos`, {
-        // fetch(`http://localhost:5000/servicos`, {
+      // fetch(`http://${hostHome}:5000/servicos`, {
+      fetch(`http://localhost:5000/servicos`, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -163,18 +149,23 @@ const Agendar = () => {
 
   return (
     <div className="background">
-      <form onSubmit={handleSubmit((data) => {})} className="form">
+      <form
+        onSubmit={handleSubmit((data) => {
+          console.log(data);
+        })}
+        className="form"
+      >
         <h2 className="h2">Agendar</h2>
         <div className="container-form">
           <Controller
             control={control}
-            // ref={register("date", { required: true })}
             rules={{
               required: true,
               validate: isValidDate,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <FormControl
+                error={errors.date ? true : false}
                 sx={{
                   m: 1,
                   width: "100%",
@@ -190,7 +181,7 @@ const Agendar = () => {
                     label="*Data"
                     value={value}
                     onBlur={onBlur}
-                    minDate={new Date()}
+                    minDate={new Date().setHours(0, 0, 0, 0)}
                     shouldDisableDate={isNotAvailable}
                     onChange={onChange}
                     renderInput={(params) => <TextField {...params} />}
@@ -200,19 +191,19 @@ const Agendar = () => {
             )}
             name="date"
           ></Controller>
-          {errors.date && errors.date.type !== "validate" && (
-            <span className="errorMessage">Preencha este campo</span>
+          {errors.date?.type === "required" && (
+            <span className="errorMessage">Selecione uma data</span>
           )}
-          {errors.date && errors.date.type === "validate" && (
+          {errors.date?.type === "validate" && (
             <span className="errorMessage">Selecione uma data válida</span>
           )}
 
           <Controller
             control={control}
-            // ref={register("service", { required: true })}
             rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { value } }) => (
               <FormControl
+                error={errors.service ? true : false}
                 sx={{
                   m: 1,
                   width: "100%",
@@ -228,15 +219,17 @@ const Agendar = () => {
                   labelId="service"
                   id="service"
                   value={value}
-                  onBlur={onBlur}
                   label="*Serviço"
                   sx={{ fontSize: "1.2rem" }}
                   onChange={(event) => {
-                    setValue("service", event.target.value);
-                    setIdServiceSelected(event.target.value);
                     let filteredService = services.filter((service) => {
                       return service.idServico === event.target.value;
                     });
+                    setValue("service", event.target.value);
+                    if (filteredService[0]?.servico) {
+                      clearErrors("service");
+                    }
+                    setIdServiceSelected(event.target.value);
                     setServiceSelected(filteredService[0]);
                     setCustomerOptionServices(filteredService[0].options);
                     let options = [];
@@ -252,7 +245,6 @@ const Agendar = () => {
                           return (
                             <MenuItem
                               sx={{ fontSize: "1.2rem" }}
-                              name={service.servico}
                               key={service.servico}
                               value={service.idServico}
                             >
@@ -277,9 +269,9 @@ const Agendar = () => {
             )}
             name="service"
           ></Controller>
-          {errors.service && (
-            <span className="errorMessage">Preencha este campo</span>
-          )}
+          {errors.service?.type === "required" ? (
+            <span className="errorMessage">Selecione o serviço</span>
+          ) : null}
 
           <Controller
             control={control}
@@ -324,6 +316,7 @@ const Agendar = () => {
                     });
                     if (!professionalDoesService) {
                       setValue("service", "");
+                      setError("service", { type: "required" });
                       setIdServiceSelected("");
                     }
                   }}
@@ -350,7 +343,11 @@ const Agendar = () => {
           {services && services[0] && idServiceSelected
             ? customerOptionServices.map((option, index) => {
                 return (
-                  <div className="customer-choice-radio" key={index}>
+                  <div
+                    className="customer-choice-radio"
+                    key={index}
+                    id={index.toString()}
+                  >
                     <FormLabel id="demo-radio-buttons-group-label">
                       {option}
                     </FormLabel>
@@ -363,15 +360,12 @@ const Agendar = () => {
                         value="establishment"
                         control={
                           <Radio
-                            id={index.toString()}
-                            checked={options[index].value === "establishment"}
-                            onChange={(event) => {
+                            onChange={() => {
                               let optionsAvailable = options;
-                              let id = parseInt(event.target.id);
-                              optionsAvailable[id].value = "establishment";
+                              optionsAvailable[index].value = "establishment";
                               setOptions(optionsAvailable);
                             }}
-                            // value="establishment"
+                            value="establishment"
                           />
                         }
                         label="Vou usar do local"
@@ -380,15 +374,12 @@ const Agendar = () => {
                         value="home"
                         control={
                           <Radio
-                            id={index.toString()}
-                            checked={options[index].value === "home"}
-                            onChange={(event) => {
+                            onChange={() => {
                               let optionsAvailable = options;
-                              let id = parseInt(event.target.id);
-                              optionsAvailable[id].value = "home";
+                              optionsAvailable[index].value = "home";
                               setOptions(optionsAvailable);
                             }}
-                            // value="home"
+                            value="home"
                           />
                         }
                         label="Vou levar de casa"
@@ -435,13 +426,11 @@ const Agendar = () => {
                       <Typography sx={{ p: 2 }}>
                         O preço pode variar de{" "}
                         {serviceSelected.precoMinimo.toLocaleString("pt-br", {
-                          // minimumFractionDigits: 2,
                           style: "currency",
                           currency: "BRL",
                         })}{" "}
                         a{" "}
                         {serviceSelected.precoMaximo.toLocaleString("pt-br", {
-                          // minimumFractionDigits: 2,
                           style: "currency",
                           currency: "BRL",
                         })}

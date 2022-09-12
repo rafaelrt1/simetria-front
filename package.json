@@ -9,6 +9,7 @@
     "@date-io/moment": "^2.15.0",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "@hookform/resolvers": "^2.9.7",
     "@material-ui/pickers": "^3.3.10",
     "@material/textfield": "^14.0.0",
     "@mui/icons-material": "^5.10.2",
@@ -42,7 +43,8 @@
     "workbox-range-requests": "^6.5.4",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
-    "workbox-streams": "^6.5.4"
+    "workbox-streams": "^6.5.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
