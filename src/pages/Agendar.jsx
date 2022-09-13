@@ -6,6 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import {
   Button,
+  createTheme,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -15,6 +16,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -164,30 +166,38 @@ const Agendar = () => {
               validate: isValidDate,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <FormControl
-                error={errors.date ? true : false}
-                sx={{
-                  m: 1,
-                  width: "100%",
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: "5px",
-                }}
-                variant="outlined"
-              >
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    dayOfWeekFormatter={(day) => daysOfWeek[day]}
-                    inputFormat="dd/MM/yyyy"
-                    label="*Data"
-                    value={value}
-                    onBlur={onBlur}
-                    minDate={new Date().setHours(0, 0, 0, 0)}
-                    shouldDisableDate={isNotAvailable}
-                    onChange={onChange}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </FormControl>
+              <ThemeProvider theme={theme}>
+                <FormControl
+                  error={errors.date ? true : false}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    backgroundColor: "#FFFFFF",
+                    borderRadius: "5px",
+                  }}
+                  variant="outlined"
+                >
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      dayOfWeekFormatter={(day) => daysOfWeek[day]}
+                      inputFormat="dd/MM/yyyy"
+                      label="*Data"
+                      value={value}
+                      onBlur={onBlur}
+                      theme={theme}
+                      minDate={new Date().setHours(0, 0, 0, 0)}
+                      shouldDisableDate={isNotAvailable}
+                      onChange={onChange}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={errors.date ? true : false}
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+              </ThemeProvider>
             )}
             name="date"
           ></Controller>
@@ -209,6 +219,7 @@ const Agendar = () => {
                   width: "100%",
                   backgroundColor: "#FFFFFF",
                   borderRadius: "5px",
+                  fontSize: "1.2rem",
                 }}
                 variant="outlined"
               >
@@ -233,7 +244,7 @@ const Agendar = () => {
                     setServiceSelected(filteredService[0]);
                     setCustomerOptionServices(filteredService[0].options);
                     let options = [];
-                    filteredService[0].options.map((option) => {
+                    filteredService[0].options.forEach((option) => {
                       options.push({ value: "establishment", id: option });
                     });
                     setOptions(options);
@@ -477,5 +488,14 @@ const Agendar = () => {
     </div>
   );
 };
+
+const theme = createTheme({
+  typography: {
+    // ...
+    // Tell Material-UI what's the font-size on the html element is.
+    htmlFontSize: 14,
+    // ...
+  },
+});
 
 export default Agendar;
