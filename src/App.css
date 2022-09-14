@@ -1,3 +1,8 @@
+body, #root {
+    display: flex;
+    flex: 1;
+}
+
 .tinyLogo {
     width: 110px;
     height: 159.43px;

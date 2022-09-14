@@ -144,6 +144,34 @@ const Agendar = () => {
     }
   };
 
+  const searchAvailability = (data) => {
+    try {
+      fetch(
+        `http://${hostHome}:5000/horarios?profissional=${data.professional}&servico=${data.service}&data=${data.date}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            // headers: {
+            //     'Authorization': `Bearer ${token}`
+            // }
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(
+          (result) => {},
+          (error) => {
+            console.error(error);
+          }
+        );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getServices();
   }, []);
@@ -152,7 +180,7 @@ const Agendar = () => {
     <div className="background">
       <form
         onSubmit={handleSubmit((data) => {
-          console.log(data);
+          searchAvailability(data);
         })}
         className="form"
       >
