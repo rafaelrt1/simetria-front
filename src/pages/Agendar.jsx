@@ -87,7 +87,6 @@ const Agendar = () => {
     defaultValues: {
       date: getInitialDate(),
       service: "",
-      professional: "",
     },
   });
 
@@ -118,8 +117,8 @@ const Agendar = () => {
 
   const getServices = () => {
     try {
-      // fetch(`http://${hostHome}:5000/servicos`, {
-      fetch(`http://localhost:5000/servicos`, {
+      fetch(`http://${hostHome}:5000/servicos`, {
+        // fetch(`http://localhost:5000/servicos`, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -219,11 +218,11 @@ const Agendar = () => {
                   width: "100%",
                   backgroundColor: "#FFFFFF",
                   borderRadius: "5px",
-                  fontSize: "1.2rem",
+                  fontSize: "1.3rem",
                 }}
                 variant="outlined"
               >
-                <InputLabel sx={{ fontSize: "1.2rem" }} id="service">
+                <InputLabel sx={{ fontSize: "1.3rem" }} id="service">
                   *Serviço
                 </InputLabel>
                 <Select
@@ -231,7 +230,7 @@ const Agendar = () => {
                   id="service"
                   value={value}
                   label="*Serviço"
-                  sx={{ fontSize: "1.2rem" }}
+                  sx={{ fontSize: "1.3rem" }}
                   onChange={(event) => {
                     let filteredService = services.filter((service) => {
                       return service.idServico === event.target.value;
@@ -255,7 +254,7 @@ const Agendar = () => {
                         (service) => {
                           return (
                             <MenuItem
-                              sx={{ fontSize: "1.2rem" }}
+                              sx={{ fontSize: "1.3rem" }}
                               key={service.servico}
                               value={service.idServico}
                             >
@@ -267,7 +266,7 @@ const Agendar = () => {
                     : services.map((service) => {
                         return (
                           <MenuItem
-                            sx={{ fontSize: "1.2rem" }}
+                            sx={{ fontSize: "1.3rem" }}
                             key={service.idServico}
                             value={service.idServico}
                           >
@@ -284,72 +283,72 @@ const Agendar = () => {
             <span className="errorMessage">Selecione o serviço</span>
           ) : null}
 
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormControl
-                sx={{
-                  m: 1,
-                  width: "100%",
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: "5px",
-                }}
-                variant="outlined"
-              >
-                <InputLabel sx={{ fontSize: "1.2rem" }} id="professional">
-                  Profissional
-                </InputLabel>
-                <Select
-                  labelId="professional"
-                  id="professional-select"
-                  value={value}
-                  onBlur={onBlur}
-                  label="Profissional"
-                  sx={{ fontSize: "1.2rem" }}
-                  onChange={(event) => {
-                    let employee = event.target.value;
-                    setValue("professional", employee);
-                    if (!employee) {
-                      setValue("professional", 0);
-                      setProfessionalSelected(0);
-                      return;
-                    }
-                    setProfessionalSelected(employee);
-                    let employeeName = employees.filter((e) => {
-                      return e.idProfissional === event.target.value;
-                    });
-                    setNameProfessionalSelected(employeeName[0].nome);
-                    let service = getValues("service");
-                    let professionalDoesService = professionalsServices[
-                      employee
-                    ].some((servico) => {
-                      return servico.idServico === service;
-                    });
-                    if (!professionalDoesService) {
-                      setValue("service", "");
-                      setError("service", { type: "required" });
-                      setIdServiceSelected("");
-                    }
-                  }}
-                >
-                  {employees
-                    ? employees.map((professional, index) => {
-                        return (
-                          <MenuItem
-                            sx={{ fontSize: "1.2rem" }}
-                            key={index}
-                            value={professional.idProfissional}
-                          >
-                            {professional.nome}
-                          </MenuItem>
-                        );
-                      })
-                    : null}
-                </Select>
-              </FormControl>
-            )}
-            name="professional"
-          ></Controller>
+          {/* <Controller> */}
+          {/* control={control}
+            render={({ field: { onChange, onBlur, value } }) => ( */}
+          <FormControl
+            sx={{
+              m: 1,
+              width: "100%",
+              backgroundColor: "#FFFFFF",
+              borderRadius: "5px",
+            }}
+            variant="outlined"
+          >
+            <InputLabel sx={{ fontSize: "1.3rem" }} id="professional">
+              Profissional
+            </InputLabel>
+            <Select
+              labelId="professional"
+              id="professional-select"
+              value={professionalSelected}
+              // onBlur={onBlur}
+              label="Profissional"
+              sx={{ fontSize: "1.3rem" }}
+              onChange={(event) => {
+                let employee = event.target.value;
+                setValue("professional", employee);
+                if (!employee) {
+                  setValue("professional", 0);
+                  setProfessionalSelected(0);
+                  return;
+                }
+                setProfessionalSelected(employee);
+                let employeeName = employees.filter((e) => {
+                  return e.idProfissional === event.target.value;
+                });
+                setNameProfessionalSelected(employeeName[0].nome);
+                let service = getValues("service");
+                let professionalDoesService = professionalsServices[
+                  employee
+                ].some((servico) => {
+                  return servico.idServico === service;
+                });
+                if (!professionalDoesService) {
+                  setValue("service", "");
+                  setError("service", { type: "required" });
+                  setIdServiceSelected("");
+                }
+              }}
+            >
+              {employees
+                ? employees.map((professional, index) => {
+                    return (
+                      <MenuItem
+                        sx={{ fontSize: "1.3rem" }}
+                        key={index}
+                        value={professional.idProfissional}
+                      >
+                        {professional.nome}
+                      </MenuItem>
+                    );
+                  })
+                : null}
+            </Select>
+          </FormControl>
+          {/* )} */}
+          {/* name="professional" > */}
+          {/* </Controller> */}
 
           {services && services[0] && idServiceSelected
             ? customerOptionServices.map((option, index) => {
@@ -422,7 +421,7 @@ const Agendar = () => {
                       aria-describedby={id}
                       onClick={handleClick}
                     >
-                      <InfoIcon sx={{ fontSize: "1.5rem", color: "#888888" }} />
+                      <InfoIcon sx={{ fontSize: "1.3rem", color: "#888888" }} />
                     </Button>
                     <Popover
                       id={id}
@@ -482,7 +481,18 @@ const Agendar = () => {
               ) : null}
             </div>
           ) : null}
-          <button className="mainButton">Buscar</button>
+          <button
+            disabled={
+              getValues("date") &&
+              getValues("service") &&
+              Object.keys(errors).length === 0
+                ? false
+                : true
+            }
+            className="mainButton"
+          >
+            Buscar
+          </button>
         </div>
       </form>
     </div>
@@ -493,7 +503,7 @@ const theme = createTheme({
   typography: {
     // ...
     // Tell Material-UI what's the font-size on the html element is.
-    htmlFontSize: 14,
+    htmlFontSize: 13,
     // ...
   },
 });
