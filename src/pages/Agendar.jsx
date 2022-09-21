@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm, Controller, useController } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -20,10 +20,15 @@ import {
   Typography,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import { LoginContext } from "../context";
+import { useNavigate } from "react-router-dom";
 
 const Agendar = () => {
+  const searchContext = useContext(LoginContext);
+  const history = useNavigate();
   const hostHome = "10.0.0.19";
   const hostBruna = "192.168.0.199";
+  const hostIf = "10.40.2.149";
   const daysOfWeek = {
     Su: "D",
     Mo: "S",
@@ -117,8 +122,8 @@ const Agendar = () => {
 
   const getServices = () => {
     try {
-      fetch(`http://${hostHome}:5000/servicos`, {
-        // fetch(`http://localhost:5000/servicos`, {
+      // fetch(`http://${hostIf}:5000/servicos`, {
+      fetch(`http://localhost:5000/servicos`, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -145,31 +150,34 @@ const Agendar = () => {
   };
 
   const searchAvailability = (data) => {
-    try {
-      fetch(
-        `http://${hostHome}:5000/horarios?profissional=${data.professional}&servico=${data.service}&data=${data.date}`,
-        {
-          method: "GET",
-          mode: "cors",
-          headers: {
-            // headers: {
-            //     'Authorization': `Bearer ${token}`
-            // }
-            Accept: "application/json",
-            "Content-Type": "application/json;charset=UTF-8",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then(
-          (result) => {},
-          (error) => {
-            console.error(error);
-          }
-        );
-    } catch (error) {
-      console.error(error);
-    }
+    let formattedDate = `${data.date.getUTCFullYear()}-${
+      data.date.getMonth() + 1
+    }-${data.date.getDate()}`;
+    searchContext.dispatchSearch({
+      service: data.service,
+      date: formattedDate,
+      professional: data.professional,
+    });
+    localStorage.setItem(
+      "search",
+      JSON.stringify({
+        service: data.service,
+        date: formattedDate,
+        professional: data.professional,
+      })
+    );
+    window.open(
+      `/horarios?service=${data.service}&date=${formattedDate}&professional=${
+        data.professional ? data.professional : ""
+      }`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+    // history(
+    //   `/horarios?service=${data.service}&date=${data.date}&professional=${
+    //     data.professional ? data.professional : ""
+    //   }`
+    // );
   };
 
   useEffect(() => {

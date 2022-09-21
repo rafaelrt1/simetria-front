@@ -57,7 +57,7 @@ const Login = () => {
       profileObj: { name, email },
     } = response;
 
-    loginContext.dispatch({
+    loginContext.dispatchLogin({
       isLoggedIn: true,
       session: response.tokenId,
     });
@@ -117,7 +117,7 @@ const Login = () => {
         />
         <h1 className="simetriaName">Simetria Estética</h1>
       </div>
-      <form onSubmit={handleSubmit(tryLogin)} class="form">
+      <form onSubmit={handleSubmit(tryLogin)} className="form">
         <div className="label-float">
           <Controller
             control={control}

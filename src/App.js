@@ -1,12 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import "./App.css";
-import { ContextProvider } from "./context";
+import { ContextProvider, LoginContext } from "./context";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Agendar from "./pages/Agendar";
+import Horarios from "./pages/Horarios";
+import { useContext } from "react";
 
 function App() {
+
+  const searchContext = useContext(LoginContext);
 
   let deferredPrompt;
   const addBtn = document.querySelector('.add-button');
@@ -45,6 +49,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="agendar" element={<Agendar/>} />
           <Route path="register" element={<Register />} />
+          <Route path="horarios" element={<Horarios />} />;
         </Routes>
       </ContextProvider>
     </BrowserRouter>
