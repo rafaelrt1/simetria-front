@@ -122,8 +122,8 @@ const Agendar = () => {
 
     const getServices = () => {
         try {
-            // fetch(`http://${hostIf}:5000/servicos`, {
-            fetch(`http://localhost:5000/servicos`, {
+            fetch(`http://${hostHome}:5000/servicos`, {
+                // fetch(`http://localhost:5000/servicos`, {
                 method: "GET",
                 mode: "cors",
                 headers: {

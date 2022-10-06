@@ -3,186 +3,188 @@ import { useForm, Controller } from "react-hook-form";
 import InputMask from "react-input-mask";
 
 const Register = ({ navigation }) => {
-  const [visibleLoader, setVisibleLoader] = useState(false);
-  const [user, setUser] = useState();
-  const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
-  const hostHome = "10.0.0.19";
-  const hostBruna = "192.168.0.199";
+    const [visibleLoader, setVisibleLoader] = useState(false);
+    const [user, setUser] = useState();
+    const [password, setPassword] = useState();
+    const [email, setEmail] = useState();
+    const hostHome = "10.0.0.19";
+    const hostBruna = "192.168.0.199";
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      fullname: "",
-      email: "",
-      cellphone: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = (data) => {
-    console.log(data);
-    registerUser(data);
-  };
-
-  const registerUser = (data, e) => {
-    try {
-      // e.preventDefault();
-      setVisibleLoader(true);
-
-      // fetch(`http://${hostHome}:5000/register`, {
-      fetch(`http://localhost:5000/register`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json;charset=UTF-8",
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            fullname: "",
+            email: "",
+            cellphone: "",
+            password: "",
         },
-        body: JSON.stringify({
-          cell: data.cellphone
-            .replaceAll("(", "")
-            .replaceAll(")", "")
-            .replaceAll(" ", "")
-            .replaceAll("-", ""),
-          pass: data.password,
-          email: data.email,
-          name: data.fullname,
-        }),
-      })
-        .then((res) => res.json())
-        .then(
-          (result) => {
+    });
+
+    const onSubmit = (data) => {
+        console.log(data);
+        registerUser(data);
+    };
+
+    const registerUser = (data, e) => {
+        try {
+            // e.preventDefault();
+            setVisibleLoader(true);
+
+            // fetch(`http://${hostHome}:5000/register`, {
+            fetch(`http://${hostHome}:5000/register`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json;charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    cell: data.cellphone
+                        .replaceAll("(", "")
+                        .replaceAll(")", "")
+                        .replaceAll(" ", "")
+                        .replaceAll("-", ""),
+                    pass: data.password,
+                    email: data.email,
+                    name: data.fullname,
+                }),
+            })
+                .then((res) => res.json())
+                .then(
+                    (result) => {
+                        setVisibleLoader(false);
+                        console.log(result);
+                    },
+                    (error) => {
+                        console.error(error);
+                        setVisibleLoader(false);
+                    }
+                );
+        } catch (e) {
+            console.error(e);
             setVisibleLoader(false);
-            console.log(result);
-          },
-          (error) => {
-            console.error(error);
-            setVisibleLoader(false);
-          }
-        );
-    } catch (e) {
-      console.error(e);
-      setVisibleLoader(false);
-    }
-  };
+        }
+    };
 
-  return (
-    <div className="background">
-      <div className="image">
-        <img
-          className="tinyLogo"
-          src={require("../images/Simetria1.png")}
-          alt="Logo Simetria"
-        />
-        <p className="simetriaName">Simetria Estética</p>
-      </div>
-      <form onSubmit={handleSubmit(registerUser)} class="form">
-        <div className="label-float">
-          <Controller
-            control={control}
-            rules={{ maxLength: 60, required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <input
-                  id="name"
-                  onBlur={onBlur}
-                  onChange={onChange}
-                  value={value}
-                  placeholder=" "
+    return (
+        <div className="background">
+            <div className="image">
+                <img
+                    className="tinyLogo"
+                    src={require("../images/Simetria1.png")}
+                    alt="Logo Simetria"
                 />
-                <label htmlFor="name">Nome completo</label>
-              </>
-            )}
-            name="fullname"
-          ></Controller>
-          {errors.fullname && (
-            <p className="errorMessage">Preencha este campo</p>
-          )}
+                <p className="simetriaName">Simetria Estética</p>
+            </div>
+            <form onSubmit={handleSubmit(registerUser)} class="form">
+                <div className="label-float">
+                    <Controller
+                        control={control}
+                        rules={{ maxLength: 60, required: true }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <>
+                                <input
+                                    id="name"
+                                    onBlur={onBlur}
+                                    onChange={onChange}
+                                    value={value}
+                                    placeholder=" "
+                                />
+                                <label htmlFor="name">Nome completo</label>
+                            </>
+                        )}
+                        name="fullname"
+                    ></Controller>
+                    {errors.fullname && (
+                        <p className="errorMessage">Preencha este campo</p>
+                    )}
+                </div>
+
+                <div className="label-float">
+                    <Controller
+                        control={control}
+                        rules={{
+                            maxLength: 70,
+                            required: true,
+                            pattern:
+                                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <>
+                                <input
+                                    id="email"
+                                    onBlur={onBlur}
+                                    onChange={onChange}
+                                    value={value}
+                                    placeholder=" "
+                                />
+                                <label htmlFor="email">E-mail</label>
+                            </>
+                        )}
+                        name="email"
+                    ></Controller>
+                    {errors.email && (
+                        <p className="errorMessage">Preencha este campo</p>
+                    )}
+                </div>
+
+                <div className="label-float">
+                    <Controller
+                        control={control}
+                        rules={{ required: true, minLength: 15, maxLength: 15 }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <>
+                                <InputMask
+                                    mask="(99) 99999-9999"
+                                    value={value}
+                                    placeholder=" "
+                                    onChange={onChange}
+                                ></InputMask>
+                                <label htmlFor="cell">Celular</label>
+                            </>
+                        )}
+                        name="cellphone"
+                    ></Controller>
+                    {errors.cellphone && (
+                        <p className="errorMessage">Preencha este campo</p>
+                    )}
+                </div>
+
+                <div className="label-float">
+                    <Controller
+                        control={control}
+                        rules={{ maxLength: 30, required: true }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    onBlur={onBlur}
+                                    onChange={onChange}
+                                    value={value}
+                                    placeholder=" "
+                                />
+                                <label htmlFor="password">Senha</label>
+                            </>
+                        )}
+                        name="password"
+                    ></Controller>
+                    {errors.password && (
+                        <p className="errorMessage">Preencha este campo</p>
+                    )}
+                </div>
+
+                <button className="mainButton" onClick={handleSubmit(onSubmit)}>
+                    CADASTRAR
+                </button>
+            </form>
+
+            {/* {visibleLoader ? <ActivityIndicator size="large" /> : null} */}
         </div>
-
-        <div className="label-float">
-          <Controller
-            control={control}
-            rules={{
-              maxLength: 70,
-              required: true,
-              pattern:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <input
-                  id="email"
-                  onBlur={onBlur}
-                  onChange={onChange}
-                  value={value}
-                  placeholder=" "
-                />
-                <label htmlFor="email">E-mail</label>
-              </>
-            )}
-            name="email"
-          ></Controller>
-          {errors.email && <p className="errorMessage">Preencha este campo</p>}
-        </div>
-
-        <div className="label-float">
-          <Controller
-            control={control}
-            rules={{ required: true, minLength: 15, maxLength: 15 }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <InputMask
-                  mask="(99) 99999-9999"
-                  value={value}
-                  placeholder=" "
-                  onChange={onChange}
-                ></InputMask>
-                <label htmlFor="cell">Celular</label>
-              </>
-            )}
-            name="cellphone"
-          ></Controller>
-          {errors.cellphone && (
-            <p className="errorMessage">Preencha este campo</p>
-          )}
-        </div>
-
-        <div className="label-float">
-          <Controller
-            control={control}
-            rules={{ maxLength: 30, required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <input
-                  id="password"
-                  type="password"
-                  onBlur={onBlur}
-                  onChange={onChange}
-                  value={value}
-                  placeholder=" "
-                />
-                <label htmlFor="password">Senha</label>
-              </>
-            )}
-            name="password"
-          ></Controller>
-          {errors.password && (
-            <p className="errorMessage">Preencha este campo</p>
-          )}
-        </div>
-
-        <button className="mainButton" onClick={handleSubmit(onSubmit)}>
-          CADASTRAR
-        </button>
-      </form>
-
-      {/* {visibleLoader ? <ActivityIndicator size="large" /> : null} */}
-    </div>
-  );
+    );
 };
 
 export default Register;
