@@ -342,6 +342,20 @@ body, #root {
     align-items: center;
 }
 
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.user p {
+    margin: 0;
+}
+
+.logout {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
 @media (max-width: 768px) {
     .container-form {
         width: 90%;

@@ -4,44 +4,65 @@ export const LoginContext = createContext();
 // export const SearchContext = createContext();
 
 const reducerLogin = (state, action) => {
-    return { isLoggedIn: action.isLoggedIn, session: action.session };
+    return {
+        isLoggedIn: action.isLoggedIn,
+        session: action.session,
+        userData: action.userData,
+    };
 };
 
 const getInitialStateLogin = () => {
     return {
-        isLoggedIn: false,
-        session: null
-    }
-}
+        isLoggedIn: localStorage.getItem("userToken") ? true : false,
+        session: localStorage.getItem("userToken"),
+        // userData: null,
+        userData:
+            localStorage.getItem("userData") !== ""
+                ? JSON.parse(localStorage.getItem("userData"))
+                : null,
+    };
+};
 
 const reducerSearch = (state, action) => {
-    return { date: action.date, professional: action.professional, service: action.service };
+    return {
+        date: action.date,
+        professional: action.professional,
+        service: action.service,
+    };
 };
 
 const getInitialStateSearch = () => {
-    let savedData = JSON.parse(localStorage.getItem('search'));
+    let savedData = JSON.parse(localStorage.getItem("search"));
 
     if (Object.keys(savedData).length !== 0) {
         return {
             date: savedData.date,
-            professional: savedData?.professional ? savedData.professional : '',
-            service: savedData.service
-        }    
-    } else { 
+            professional: savedData?.professional ? savedData.professional : "",
+            service: savedData.service,
+        };
+    } else {
         return {
-            date: '',
+            date: "",
             professional: null,
-            service: ''
-        }
+            service: "",
+        };
     }
-}
+};
 
 export function ContextProvider(props) {
-    const [stateLogin, dispatchLogin] = useReducer(reducerLogin, getInitialStateLogin());
-    const [stateSearch, dispatchSearch] = useReducer(reducerSearch, getInitialStateSearch());
- 
+    const [stateLogin, dispatchLogin] = useReducer(
+        reducerLogin,
+        getInitialStateLogin()
+    );
+    const [stateSearch, dispatchSearch] = useReducer(
+        reducerSearch,
+        getInitialStateSearch()
+    );
+
     return (
-        <LoginContext.Provider value={{stateLogin, dispatchLogin,stateSearch, dispatchSearch}}>
+        <LoginContext.Provider
+            value={{ stateLogin, dispatchLogin, stateSearch, dispatchSearch }}
+        >
             {props.children}
         </LoginContext.Provider>
     );
