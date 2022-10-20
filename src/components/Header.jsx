@@ -1,8 +1,8 @@
 import { AccountCircle } from "@mui/icons-material";
-import { Button } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../context";
+import { GoogleLogout } from "react-google-login";
 
 const Header = () => {
     const history = useNavigate();
@@ -51,12 +51,20 @@ const Header = () => {
                         loginContext.stateLogin.userData.name.split(" ")[0]
                     }`}</p>
                     <span>Não é você?</span>
-                    <span className="logout" onClick={logout}>
-                        Sair
-                    </span>
+                    {loginContext.stateLogin.userData.id ? (
+                        <span className="logout" onClick={logout}>
+                            Sair
+                        </span>
+                    ) : loginContext.stateLogin.userData.name ? (
+                        <GoogleLogout
+                            clientId="384181648681-953cr75doj2h1kkg36ac0keihc3u0vqu.apps.googleusercontent.com"
+                            buttonText="Sair"
+                            onLogoutSuccess={logout}
+                        ></GoogleLogout>
+                    ) : null}
                 </div>
             ) : (
-                <Button onClick={() => history("/login")}>Login</Button>
+                <span onClick={() => history("/login")}>Login</span>
             )}
         </div>
     );

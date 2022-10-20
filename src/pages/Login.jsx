@@ -78,17 +78,80 @@ const Login = () => {
         },
     });
 
-    const logout = (response) => {};
+    const handleGoogleUserAuthenticated = (googleResponse) => {
+        try {
+            setVisibleLoader(true);
+            fetch(`http://localhost:5000/google-user`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    Authorization: googleResponse.tokenId,
+                    Accept: "application/json",
+                    "Content-Type": "application/json;charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    id: googleResponse.googleId,
+                    email: googleResponse.wt.cu,
+                    nome: googleResponse.wt.Ad,
+                    tokenGoogle: googleResponse.accessToken,
+                }),
+            })
+                .then((res) => res.json())
+                .then(
+                    (result) => {
+                        if (result.session) {
+                            console.log(result);
+                            localStorage.setItem("userToken", result.session);
+                            localStorage.setItem(
+                                "userData",
+                                JSON.stringify(result.userData)
+                            );
+                            loginContext.dispatchLogin({
+                                isLoggedIn: true,
+                                session: result.session,
+                                userData: result.userData,
+                            });
+                            setVisibleLoader(false);
+                            history("/");
+                        } else {
+                            // setVisibleLoader(false);
+                            // window.scrollTo(0, 0);
+                            // showFeedbackMessage(
+                            //     "Usuário ou senha incorretos",
+                            //     "error",
+                            //     6000
+                            // );
+                        }
+                    },
+                    (error) => {
+                        // console.error(error);
+                        // setVisibleLoader(false);
+                        // window.scrollTo(0, 0);
+                        // showFeedbackMessage(
+                        //     "Usuário ou senha incorretos",
+                        //     "error",
+                        //     6000
+                        // );
+                    }
+                );
+        } catch (e) {}
+    };
 
     const responseGoogle = (response) => {
         const {
             profileObj: { name, email },
         } = response;
-
+        console.log(response);
+        handleGoogleUserAuthenticated(response);
         // localStorage.setItem("userToken", response.tokenId);
+        // localStorage.setItem(
+        //     "userData",
+        //     JSON.stringify({ name: response.wt.Ad })
+        // );
         // loginContext.dispatchLogin({
         //     isLoggedIn: true,
         //     session: response.tokenId,
+        //     userData: { name: response.wt.Ad },
         // });
         // history("/");
     };
@@ -102,9 +165,6 @@ const Login = () => {
                 method: "POST",
                 mode: "cors",
                 headers: {
-                    // headers: {
-                    //     'Authorization': `Bearer ${token}`
-                    // }
                     Accept: "application/json",
                     "Content-Type": "application/json;charset=UTF-8",
                 },
@@ -258,13 +318,13 @@ const Login = () => {
                         // onFailure={responseGoogle}
                         isSignedIn={true}
                     />
-                    {loginContext.isLoggedIn ? (
+                    {/* {loginContext.isLoggedIn ? (
                         <GoogleLogout
                             clientId="384181648681-953cr75doj2h1kkg36ac0keihc3u0vqu.apps.googleusercontent.com"
                             buttonText="Logout"
                             onLogoutSuccess={logout}
                         ></GoogleLogout>
-                    ) : null}
+                    ) : null} */}
 
                     <div className="register">
                         <p className="h2">Ainda não tem uma conta?</p>
