@@ -2,6 +2,7 @@ import { RestartAlt } from "@mui/icons-material";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import FeedbackMessage from "../components/FeedbackMessage";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
 import { LoginContext } from "../context";
@@ -17,6 +18,26 @@ const Horarios = () => {
     const [suggestedTime, setSuggestedTime] = useState("");
     const [accessDenied, setAcessDenied] = useState();
     const history = useNavigate();
+    const [feedbackMessage, setFeedbackMessage] = useState({
+        message: "",
+        messageType: "",
+        visible: false,
+    });
+
+    const showFeedbackMessage = (message, type, time) => {
+        setFeedbackMessage({
+            message: message,
+            messageType: type,
+            visible: true,
+        });
+        setTimeout(() => {
+            setFeedbackMessage({
+                message: "",
+                messageType: "",
+                visible: false,
+            });
+        }, time);
+    };
 
     const getInfosFromSelectedReserve = async (
         professionalSelected,
@@ -139,18 +160,6 @@ const Horarios = () => {
                 .then((res) => res.json())
                 .then(
                     (result) => {
-                        /* TODO: Remover mock */
-                        // if (!result?.length) {
-                        //     result = [
-                        //         {
-                        //             availableTimes: ["20:00"],
-                        //             employee: 1,
-                        //             employeeName: "Bruna",
-                        //         },
-                        //     ];
-                        // } else {
-                        //     result[0].availableTimes.push("20:00");
-                        // }
                         if (result.erro) {
                             setAcessDenied(true);
                             return;
@@ -193,6 +202,12 @@ const Horarios = () => {
                     }
                     setAcessDenied(false);
                     if (result.status === "success") {
+                        showFeedbackMessage(
+                            "Reserva efetuada com sucesso",
+                            "success",
+                            10000
+                        );
+                        handleClose();
                         return;
                     }
                     if (result?.nextAvailable?.length) {
@@ -215,6 +230,10 @@ const Horarios = () => {
     return (
         <div className="background">
             <Header></Header>
+            <FeedbackMessage
+                message={feedbackMessage}
+                hideTime={6000}
+            ></FeedbackMessage>
             {accessDenied === undefined ? null : !accessDenied ? (
                 <div className="background">
                     {availability?.error ? (

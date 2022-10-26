@@ -351,6 +351,14 @@ body, #root {
     margin: 0;
 }
 
+.card-reserves {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .logout {
     cursor: pointer;
     margin-left: 5px;

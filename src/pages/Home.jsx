@@ -72,10 +72,12 @@ const Home = () => {
                                 <p className="optionMenu">Agendar</p>
                             </div>
                         </Link>
-                        <div className="option">
-                            <MenuBookOutlined sx={{ fontSize: "5rem" }} />
-                            <p className="optionMenu">Minha Agenda</p>
-                        </div>
+                        <Link to="/minha-agenda">
+                            <div className="option">
+                                <MenuBookOutlined sx={{ fontSize: "5rem" }} />
+                                <p className="optionMenu">Minha Agenda</p>
+                            </div>
+                        </Link>
                     </div>
                     <div className="menu">
                         <div className="option">

@@ -1,14 +1,37 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import InputMask from "react-input-mask";
+import { useNavigate } from "react-router-dom";
+import FeedbackMessage from "../components/FeedbackMessage";
 
 const Register = ({ navigation }) => {
+    const history = useNavigate();
     const [visibleLoader, setVisibleLoader] = useState(false);
     const [user, setUser] = useState();
     const [password, setPassword] = useState();
     const [email, setEmail] = useState();
     const hostHome = "10.0.0.19";
     const hostBruna = "192.168.0.199";
+    const [feedbackMessage, setFeedbackMessage] = useState({
+        message: "",
+        messageType: "",
+        visible: false,
+    });
+
+    const showFeedbackMessage = (message, type, time) => {
+        setFeedbackMessage({
+            message: message,
+            messageType: type,
+            visible: true,
+        });
+        setTimeout(() => {
+            setFeedbackMessage({
+                message: "",
+                messageType: "",
+                visible: false,
+            });
+        }, time);
+    };
 
     const {
         control,
@@ -24,13 +47,11 @@ const Register = ({ navigation }) => {
     });
 
     const onSubmit = (data) => {
-        console.log(data);
         registerUser(data);
     };
 
     const registerUser = (data, e) => {
         try {
-            // e.preventDefault();
             setVisibleLoader(true);
 
             fetch(`http://localhost:5000/register`, {
@@ -56,7 +77,33 @@ const Register = ({ navigation }) => {
                 .then(
                     (result) => {
                         setVisibleLoader(false);
-                        console.log(result);
+                        if (result.error) {
+                            if (
+                                result.error ===
+                                "Já existe uma conta cadastrada com este e-mail"
+                            ) {
+                                showFeedbackMessage(
+                                    result.error,
+                                    "error",
+                                    10000
+                                );
+                            } else {
+                                showFeedbackMessage(
+                                    "Ocorreu um erro ao tentar cadastrar o usuário",
+                                    "error",
+                                    10000
+                                );
+                            }
+                        } else {
+                            showFeedbackMessage(
+                                "Cadastro efetuado com sucesso. Você será redirecionado para fazer login com sua nova conta",
+                                "success",
+                                10000
+                            );
+                            setTimeout(() => {
+                                history("/login");
+                            }, 7000);
+                        }
                     },
                     (error) => {
                         console.error(error);
@@ -71,6 +118,10 @@ const Register = ({ navigation }) => {
 
     return (
         <div className="background">
+            <FeedbackMessage
+                message={feedbackMessage}
+                hideTime={6000}
+            ></FeedbackMessage>
             <div className="image">
                 <img
                     className="tinyLogo"

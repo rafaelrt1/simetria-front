@@ -1,4 +1,4 @@
-import { AccountCircle } from "@mui/icons-material";
+import { PermIdentityOutlined } from "@mui/icons-material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../context";
@@ -44,7 +44,7 @@ const Header = () => {
 
     return (
         <div className="user">
-            <AccountCircle fontSize="large"></AccountCircle>
+            <PermIdentityOutlined fontSize="large"></PermIdentityOutlined>
             {loginContext.stateLogin.session ? (
                 <div>
                     <p>{`Olá, ${

@@ -185,11 +185,6 @@ const Agendar = () => {
             "_blank",
             "noopener,noreferrer"
         );
-        // history(
-        //   `/horarios?service=${data.service}&date=${data.date}&professional=${
-        //     data.professional ? data.professional : ""
-        //   }`
-        // );
     };
 
     useEffect(() => {
@@ -678,20 +673,12 @@ const Agendar = () => {
 
 const theme = createTheme({
     typography: {
-        // ...
-        // Tell Material-UI what's the font-size on the html element is.
         htmlFontSize: 13,
-        // ...
     },
 });
 
 const themeDefalut = createTheme({
-    typography: {
-        // ...
-        // Tell Material-UI what's the font-size on the html element is.
-        // htmlFontSize: 13,
-        // ...
-    },
+    typography: {},
 });
 
 export default Agendar;

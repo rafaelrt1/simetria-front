@@ -1,7 +1,6 @@
 import { createContext, useReducer } from "react";
 
 export const LoginContext = createContext();
-// export const SearchContext = createContext();
 
 const reducerLogin = (state, action) => {
     return {
@@ -15,7 +14,6 @@ const getInitialStateLogin = () => {
     return {
         isLoggedIn: localStorage.getItem("userToken") ? true : false,
         session: localStorage.getItem("userToken"),
-        // userData: null,
         userData:
             localStorage.getItem("userData") !== ""
                 ? JSON.parse(localStorage.getItem("userData"))

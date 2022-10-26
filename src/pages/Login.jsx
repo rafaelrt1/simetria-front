@@ -114,24 +114,24 @@ const Login = () => {
                             setVisibleLoader(false);
                             history("/");
                         } else {
-                            // setVisibleLoader(false);
-                            // window.scrollTo(0, 0);
-                            // showFeedbackMessage(
-                            //     "Usuário ou senha incorretos",
-                            //     "error",
-                            //     6000
-                            // );
+                            setVisibleLoader(false);
+                            window.scrollTo(0, 0);
+                            showFeedbackMessage(
+                                "Erro ao realizar o login",
+                                "error",
+                                6000
+                            );
                         }
                     },
                     (error) => {
-                        // console.error(error);
-                        // setVisibleLoader(false);
-                        // window.scrollTo(0, 0);
-                        // showFeedbackMessage(
-                        //     "Usuário ou senha incorretos",
-                        //     "error",
-                        //     6000
-                        // );
+                        console.error(error);
+                        setVisibleLoader(false);
+                        window.scrollTo(0, 0);
+                        showFeedbackMessage(
+                            "Erro ao realizar o login",
+                            "error",
+                            6000
+                        );
                     }
                 );
         } catch (e) {}
@@ -143,22 +143,10 @@ const Login = () => {
         } = response;
         console.log(response);
         handleGoogleUserAuthenticated(response);
-        // localStorage.setItem("userToken", response.tokenId);
-        // localStorage.setItem(
-        //     "userData",
-        //     JSON.stringify({ name: response.wt.Ad })
-        // );
-        // loginContext.dispatchLogin({
-        //     isLoggedIn: true,
-        //     session: response.tokenId,
-        //     userData: { name: response.wt.Ad },
-        // });
-        // history("/");
     };
 
     const tryLogin = (data, e) => {
         try {
-            // e.preventDefault();
             setVisibleLoader(true);
             // fetch(`http://${hostHome}:5000/login`, {
             fetch(`http://localhost:5000/login`, {
