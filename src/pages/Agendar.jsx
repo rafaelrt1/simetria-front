@@ -323,21 +323,23 @@ const Agendar = () => {
                                         employeeName[0].nome
                                     );
                                     let service = getValues("service");
-                                    let professionalDoesService =
-                                        professionalsServices[employee].some(
-                                            (servico) => {
+                                    if (service) {
+                                        let professionalDoesService =
+                                            professionalsServices[
+                                                employee
+                                            ].some((servico) => {
                                                 return (
                                                     servico.idServico ===
                                                     service
                                                 );
-                                            }
-                                        );
-                                    if (!professionalDoesService) {
-                                        setValue("service", "");
-                                        setError("service", {
-                                            type: "required",
-                                        });
-                                        setIdServiceSelected("");
+                                            });
+                                        if (!professionalDoesService) {
+                                            setValue("service", "");
+                                            setError("service", {
+                                                type: "required",
+                                            });
+                                            setIdServiceSelected("");
+                                        }
                                     }
                                 }}
                             >
