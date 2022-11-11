@@ -32,7 +32,7 @@ const reducerSearch = (state, action) => {
 const getInitialStateSearch = () => {
     let savedData = JSON.parse(localStorage.getItem("search"));
 
-    if (Object.keys(savedData).length !== 0) {
+    if (savedData && Object.keys(savedData).length !== 0) {
         return {
             date: savedData.date,
             professional: savedData?.professional ? savedData.professional : "",

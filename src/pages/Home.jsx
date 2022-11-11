@@ -15,10 +15,24 @@ const Home = () => {
     const loginContext = useContext(LoginContext);
     const [accessDenied, setAcessDenied] = useState();
     const history = useNavigate();
+    const pages = [
+        {
+            pages: [
+                { name: "Agendar", route: "/agendar" },
+                { name: "Minha agenda", route: "/minha-agenda" },
+            ],
+        },
+        {
+            pages: [
+                { name: "Perfil", route: "/" },
+                { name: "Notícias", route: "/" },
+            ],
+        },
+    ];
 
     const checkIsLoggedIn = () => {
         try {
-            fetch(`http://localhost:5000/permission`, {
+            fetch(`http://${"10.0.0.19"}:8000/permission`, {
                 method: "GET",
                 mode: "cors",
                 headers: {
@@ -59,41 +73,72 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="background">
+        <>
             <Header></Header>
-            {accessDenied === undefined ? null : !accessDenied ? (
-                <div className="menuOptions">
-                    <div className="menu">
-                        <Link to="/agendar">
-                            <div className="option">
-                                <CalendarMonthOutlined
-                                    sx={{ fontSize: "5rem" }}
-                                />
-                                <p className="optionMenu">Agendar</p>
-                            </div>
-                        </Link>
-                        <Link to="/minha-agenda">
-                            <div className="option">
-                                <MenuBookOutlined sx={{ fontSize: "5rem" }} />
-                                <p className="optionMenu">Minha Agenda</p>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="menu">
-                        <div className="option">
-                            <PersonOutlineOutlined sx={{ fontSize: "5rem" }} />
-                            <p className="optionMenu">Perfil</p>
+            <div className="background">
+                <div className="container-form">
+                    {accessDenied === undefined ? null : !accessDenied ? (
+                        <div className="menuOptions">
+                            {pages.map((row, index) => {
+                                return (
+                                    <div className="menu" key={index}>
+                                        {row.pages.map((page, index) => {
+                                            return (
+                                                <Link
+                                                    to={page.route}
+                                                    key={index}
+                                                    className="home-link"
+                                                >
+                                                    <div className="option">
+                                                        {page.name ===
+                                                        "Agendar" ? (
+                                                            <CalendarMonthOutlined
+                                                                sx={{
+                                                                    fontSize:
+                                                                        "5rem",
+                                                                }}
+                                                            />
+                                                        ) : page.name ===
+                                                          "Minha agenda" ? (
+                                                            <MenuBookOutlined
+                                                                sx={{
+                                                                    fontSize:
+                                                                        "5rem",
+                                                                }}
+                                                            />
+                                                        ) : page.name ===
+                                                          "Perfil" ? (
+                                                            <PersonOutlineOutlined
+                                                                sx={{
+                                                                    fontSize:
+                                                                        "5rem",
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <NewspaperOutlined
+                                                                sx={{
+                                                                    fontSize:
+                                                                        "5rem",
+                                                                }}
+                                                            />
+                                                        )}
+                                                        <p className="optionMenu">
+                                                            {page.name}
+                                                        </p>
+                                                    </div>
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
+                                );
+                            })}
                         </div>
-                        <div className="option">
-                            <NewspaperOutlined sx={{ fontSize: "5rem" }} />
-                            <p className="optionMenu">Notícias</p>
-                        </div>
-                    </div>
+                    ) : (
+                        <NotAllowed />
+                    )}
                 </div>
-            ) : (
-                <NotAllowed />
-            )}
-        </div>
+            </div>
+        </>
     );
 };
 

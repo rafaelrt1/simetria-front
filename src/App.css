@@ -1,6 +1,7 @@
 body, #root {
     display: flex;
     flex: 1;
+    flex-direction: column;
 }
 
 .tinyLogo {
@@ -113,6 +114,8 @@ body, #root {
     flex-direction: row;
     margin-bottom: 20px;
     justify-content: flex-start;
+    align-items: center;
+    gap: 10px
 }
 .h2 {
     font-weight: bold;
@@ -212,15 +215,15 @@ body, #root {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-bottom: 30px;
 }
 .optionMenu {
     font-size: 24px;
-    /* color: #111111; */
     text-align: center;
+    margin-bottom: 0;
 }
 
 .option  {
-    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     min-width: 150px;
@@ -362,6 +365,62 @@ body, #root {
 .logout {
     cursor: pointer;
     margin-left: 5px;
+    color: black;
+    font-size: 15px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 3px;
+    font-weight: 600;
+}
+.logout:hover {
+    /* background-color: #3F3D3D; */
+    opacity: 0.9;
+    /* color: white; */
+}
+
+.user-login {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-link {
+    justify-content: flex-start;
+}
+
+.home-link {
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.home-link:hover {
+    background-color: #F0D4D4;
+}
+
+.logout-google {
+    margin-left: 5px
+}
+
+.logout-google:hover {
+    margin-left: 5px;
+    color: white;
+}
+
+.logout-google > span {
+    padding: 5px!important;
+    color: black;
+    font-weight: 600!important;
+}
+
+.header-link {
+    text-decoration: none;
+}
+
+.options-modal {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 @media (max-width: 768px) {

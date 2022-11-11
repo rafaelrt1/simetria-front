@@ -48,7 +48,7 @@ const Horarios = () => {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             await fetch(
-                `http://localhost:5000/infos?professional=${professionalSelected}&service=${serviceSelected}&date=${urlParams.get(
+                `http://${"10.0.0.19"}:8000/infos?professional=${professionalSelected}&service=${serviceSelected}&date=${urlParams.get(
                     "date"
                 )} ${timeSelected}`,
                 {
@@ -80,7 +80,7 @@ const Horarios = () => {
         const date = urlParams.get("date");
 
         let infos = await fetch(
-            `http://localhost:5000/infos?professional=${
+            `http://${"10.0.0.19"}:8000/infos?professional=${
                 event.target.id
             }&service=${urlParams.get("service")}&date=${urlParams.get(
                 "date"
@@ -130,7 +130,7 @@ const Horarios = () => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: 400,
+        minWidth: 200,
         bgcolor: "background.paper",
         border: "2px solid #000",
         boxShadow: 24,
@@ -141,10 +141,10 @@ const Horarios = () => {
         try {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            let url = `http://localhost:5000/horarios?&servico=${urlParams.get(
+            let url = `http://${"10.0.0.19"}:8000/horarios?&servico=${urlParams.get(
                 "service"
             )}&data=${urlParams.get("date")}`;
-            // let url = `http://${hostIf}:5000/horarios?&servico=${data.service}&data=${data.date}`;
+            // let url = `http://${hostIf}:8000/horarios?&servico=${data.service}&data=${data.date}`;
             if (urlParams.get("professional")) {
                 url = url + `&profissional=${urlParams.get("professional")}`;
             }
@@ -177,8 +177,8 @@ const Horarios = () => {
     };
 
     const tryReserve = () => {
-        // fetch(`http://${hostHome}:5000/horario`, {
-        fetch(`http://localhost:5000/horario`, {
+        // fetch(`http://${hostHome}:8000/horario`, {
+        fetch(`http://${"10.0.0.19"}:8000/horario`, {
             method: "POST",
             mode: "cors",
             headers: {
@@ -228,181 +228,192 @@ const Horarios = () => {
     }, []);
 
     return (
-        <div className="background">
+        <>
             <Header></Header>
-            <FeedbackMessage
-                message={feedbackMessage}
-                hideTime={6000}
-            ></FeedbackMessage>
-            {accessDenied === undefined ? null : !accessDenied ? (
-                <div className="background">
-                    {availability?.error ? (
-                        <div>{availability.error}</div>
-                    ) : (
-                        availability.map((employee) => {
-                            return (
-                                <div
-                                    key={employee.employee}
-                                    className="cards-times"
-                                >
-                                    <div className="professional-times">
-                                        {`Profissional: ${employee.employeeName}`}
-                                    </div>
-                                    <div className="available-times">
-                                        <div className="times">
-                                            {employee.availableTimes.map(
-                                                (availableTime, index) => {
-                                                    return (
-                                                        <button
-                                                            className="time-card"
-                                                            key={index}
-                                                            id={
-                                                                employee.employee
-                                                            }
-                                                            onClick={(event) =>
-                                                                handleOpen(
-                                                                    event
-                                                                )
-                                                            }
-                                                        >
-                                                            <span
-                                                                className="time"
+            <div className="background">
+                <FeedbackMessage
+                    message={feedbackMessage}
+                    hideTime={6000}
+                ></FeedbackMessage>
+                {accessDenied === undefined ? null : !accessDenied ? (
+                    <div className="background">
+                        {availability?.error ? (
+                            <h3>{availability.error}</h3>
+                        ) : (
+                            availability.map((employee) => {
+                                return (
+                                    <div
+                                        key={employee.employee}
+                                        className="cards-times"
+                                    >
+                                        <div className="professional-times">
+                                            {`Profissional: ${employee.employeeName}`}
+                                        </div>
+                                        <div className="available-times">
+                                            <div className="times">
+                                                {employee.availableTimes.map(
+                                                    (availableTime, index) => {
+                                                        return (
+                                                            <button
+                                                                className="time-card"
+                                                                key={index}
                                                                 id={
                                                                     employee.employee
                                                                 }
+                                                                onClick={(
+                                                                    event
+                                                                ) =>
+                                                                    handleOpen(
+                                                                        event
+                                                                    )
+                                                                }
                                                             >
-                                                                {availableTime}
-                                                            </span>
-                                                        </button>
-                                                    );
-                                                }
-                                            )}
+                                                                <span
+                                                                    className="time"
+                                                                    id={
+                                                                        employee.employee
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        availableTime
+                                                                    }
+                                                                </span>
+                                                            </button>
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })
-                    )}
-                    <Modal
-                        keepMounted
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="keep-mounted-modal-title"
-                        aria-describedby="keep-mounted-modal-description"
-                    >
-                        <Box sx={modal}>
-                            {!suggestedTime ? (
-                                <>
-                                    <Typography
-                                        id="keep-mounted-modal-title"
-                                        variant="h5"
-                                        component="h2"
-                                    >
-                                        Confirmar reserva
-                                    </Typography>
-                                    <Typography
-                                        id="keep-mounted-modal-description"
-                                        component="h4"
-                                        sx={{ mt: 2 }}
-                                    >
-                                        <p>{`Profissional: ${chosenReserve.professional}`}</p>
-                                        <p>{`Data: ${chosenReserve.dateFormatted}`}</p>
-                                        <p>{`Serviço: ${chosenReserve.service}`}</p>
-                                        <p>{`Horário: ${chosenReserve.time}`}</p>
-                                    </Typography>
-                                    <Button
-                                        variant="contained"
-                                        color="success"
-                                        onClick={tryReserve}
-                                    >
-                                        Sim
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="error"
-                                        onClick={handleClose}
-                                    >
-                                        Não
-                                    </Button>
-                                </>
-                            ) : (
-                                <>
-                                    <Typography
-                                        id="keep-mounted-modal-title"
-                                        variant="h5"
-                                        component="h2"
-                                    >
-                                        O horário selecionado não está
-                                        disponível
-                                    </Typography>
-                                    <Typography
-                                        id="keep-mounted-modal-title"
-                                        variant="h5"
-                                        component="h2"
-                                    >
-                                        {suggestedTime !== "Unavailable" ? (
-                                            <>
-                                                <p>
-                                                    Deseja agendar às{" "}
-                                                    {`${suggestedTime}?`}
-                                                </p>
-                                                <Button
-                                                    variant="contained"
-                                                    color="success"
-                                                    onClick={() => {
-                                                        let newChosenReserve =
-                                                            chosenReserve;
-                                                        newChosenReserve.timeSelected =
-                                                            suggestedTime;
-                                                        setChosenReserve(
-                                                            newChosenReserve
-                                                        );
-                                                        tryReserve();
-                                                    }}
-                                                >
-                                                    Sim
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    color="error"
-                                                    onClick={() => {
-                                                        handleClose();
-                                                        window.location.reload();
-                                                    }}
-                                                >
-                                                    Não
-                                                </Button>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <p>
-                                                    Não há horário disponível
-                                                    neste dia para o serviço
-                                                    escolhido. Faça uma nova
-                                                    busca
-                                                </p>
-                                                <Button
-                                                    variant="contained"
-                                                    color="error"
-                                                    onClick={() => {
-                                                        handleClose();
-                                                        history("/agendar");
-                                                    }}
-                                                >
-                                                    Fechar
-                                                </Button>
-                                            </>
-                                        )}
-                                    </Typography>
-                                </>
-                            )}
-                        </Box>
-                    </Modal>
-                </div>
-            ) : (
-                <NotAllowed />
-            )}
-        </div>
+                                );
+                            })
+                        )}
+                        <Modal
+                            keepMounted
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="keep-mounted-modal-title"
+                            aria-describedby="keep-mounted-modal-description"
+                        >
+                            <Box sx={modal}>
+                                {!suggestedTime ? (
+                                    <>
+                                        <Typography
+                                            id="keep-mounted-modal-title"
+                                            variant="h5"
+                                            component="h2"
+                                        >
+                                            Confirmar reserva
+                                        </Typography>
+                                        <Typography
+                                            id="keep-mounted-modal-description"
+                                            component="h4"
+                                            sx={{ mt: 2 }}
+                                        >
+                                            <p>{`Profissional: ${chosenReserve.professional}`}</p>
+                                            <p>{`Data: ${chosenReserve.dateFormatted}`}</p>
+                                            <p>{`Serviço: ${chosenReserve.service}`}</p>
+                                            <p>{`Horário: ${chosenReserve.time}`}</p>
+                                        </Typography>
+                                        <div className="options-modal">
+                                            <Button
+                                                variant="contained"
+                                                color="success"
+                                                onClick={tryReserve}
+                                            >
+                                                Sim
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="error"
+                                                onClick={handleClose}
+                                            >
+                                                Não
+                                            </Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Typography
+                                            id="keep-mounted-modal-title"
+                                            variant="h5"
+                                            component="h2"
+                                        >
+                                            O horário selecionado não está
+                                            disponível
+                                        </Typography>
+                                        <Typography
+                                            id="keep-mounted-modal-title"
+                                            variant="h5"
+                                            component="h2"
+                                        >
+                                            {suggestedTime !== "Unavailable" ? (
+                                                <>
+                                                    <p>
+                                                        Deseja agendar às{" "}
+                                                        {`${suggestedTime}?`}
+                                                    </p>
+                                                    <div className="options-modal">
+                                                        <Button
+                                                            variant="contained"
+                                                            color="success"
+                                                            onClick={() => {
+                                                                let newChosenReserve =
+                                                                    chosenReserve;
+                                                                newChosenReserve.timeSelected =
+                                                                    suggestedTime;
+                                                                setChosenReserve(
+                                                                    newChosenReserve
+                                                                );
+                                                                tryReserve();
+                                                            }}
+                                                        >
+                                                            Sim
+                                                        </Button>
+                                                        <Button
+                                                            variant="contained"
+                                                            color="error"
+                                                            onClick={() => {
+                                                                handleClose();
+                                                                window.location.reload();
+                                                            }}
+                                                        >
+                                                            Não
+                                                        </Button>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p>
+                                                        Não há horário
+                                                        disponível neste dia
+                                                        para o serviço
+                                                        escolhido. Faça uma nova
+                                                        busca
+                                                    </p>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="error"
+                                                        onClick={() => {
+                                                            handleClose();
+                                                            history("/agendar");
+                                                        }}
+                                                    >
+                                                        Fechar
+                                                    </Button>
+                                                </>
+                                            )}
+                                        </Typography>
+                                    </>
+                                )}
+                            </Box>
+                        </Modal>
+                    </div>
+                ) : (
+                    <NotAllowed />
+                )}
+            </div>
+        </>
     );
 };
 

@@ -1,11 +1,12 @@
 import { useForm, Controller } from "react-hook-form";
 import { gapi } from "gapi-script";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+import GoogleLogin from "react-google-login";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context";
 import CircularProgress from "@mui/material/CircularProgress";
 import FeedbackMessage from "../components/FeedbackMessage";
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const Login = () => {
     const [visibleLoader, setVisibleLoader] = useState(false);
@@ -51,21 +52,21 @@ const Login = () => {
         { key: "Esmaltação em gel e outros…" },
     ];
 
-    useEffect(() => {
-        function start() {
-            gapi.client.init({
-                clientId: process.env.REACT_PUBLIC_GOOGLE_CLIENT_ID,
-                scope: "email",
-            });
-        }
-        gapi.load("client:auth2", start);
-        if (
-            loginContext.stateLogin.session &&
-            loginContext.stateLogin.isLoggedIn
-        ) {
-            history("/");
-        }
-    }, []);
+    // useEffect(() => {
+    //     function start() {
+    //         gapi.client.init({
+    //             clientId: process.env.REACT_PUBLIC_GOOGLE_CLIENT_ID,
+    //             scope: "email",
+    //         });
+    //     }
+    //     gapi.load("client:auth2", start);
+    //     if (
+    //         loginContext.stateLogin.session &&
+    //         loginContext.stateLogin.isLoggedIn
+    //     ) {
+    //         history("/");
+    //     }
+    // }, []);
 
     const {
         control,
@@ -81,7 +82,7 @@ const Login = () => {
     const handleGoogleUserAuthenticated = (googleResponse) => {
         try {
             setVisibleLoader(true);
-            fetch(`http://localhost:5000/google-user`, {
+            fetch(`http://${"10.0.0.19"}:8000/google-user`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -100,7 +101,6 @@ const Login = () => {
                 .then(
                     (result) => {
                         if (result.session) {
-                            console.log(result);
                             localStorage.setItem("userToken", result.session);
                             localStorage.setItem(
                                 "userData",
@@ -141,15 +141,14 @@ const Login = () => {
         const {
             profileObj: { name, email },
         } = response;
-        console.log(response);
         handleGoogleUserAuthenticated(response);
     };
 
     const tryLogin = (data, e) => {
         try {
             setVisibleLoader(true);
-            // fetch(`http://${hostHome}:5000/login`, {
-            fetch(`http://localhost:5000/login`, {
+            // fetch(`http://${hostHome}:8000/login`, {
+            fetch(`http://${"10.0.0.19"}:8000/login`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -165,7 +164,6 @@ const Login = () => {
                 .then(
                     (result) => {
                         if (result.session) {
-                            console.log(result);
                             localStorage.setItem("userToken", result.session);
                             localStorage.setItem(
                                 "userData",
@@ -204,8 +202,6 @@ const Login = () => {
             setVisibleLoader(false);
         }
     };
-
-    console.log(loginContext);
 
     return (
         <>
@@ -299,24 +295,16 @@ const Login = () => {
                     </form>
 
                     <GoogleLogin
-                        clientId="384181648681-953cr75doj2h1kkg36ac0keihc3u0vqu.apps.googleusercontent.com"
+                        clientId={GOOGLE_CLIENT_ID}
                         buttonText="Continuar com o Google"
                         onSuccess={responseGoogle}
                         className="secondaryButton"
-                        // onFailure={responseGoogle}
                         isSignedIn={true}
                     />
-                    {/* {loginContext.isLoggedIn ? (
-                        <GoogleLogout
-                            clientId="384181648681-953cr75doj2h1kkg36ac0keihc3u0vqu.apps.googleusercontent.com"
-                            buttonText="Logout"
-                            onLogoutSuccess={logout}
-                        ></GoogleLogout>
-                    ) : null} */}
 
                     <div className="register">
-                        <p className="h2">Ainda não tem uma conta?</p>
-                        <Link to="/cadastro">
+                        <h2>Ainda não tem uma conta?</h2>
+                        <Link className="register-link" to="/cadastro">
                             <p className="anchor">Cadastre-se</p>
                         </Link>
                     </div>

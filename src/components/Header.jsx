@@ -1,15 +1,34 @@
-import { PermIdentityOutlined } from "@mui/icons-material";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { AccountCircle } from "@mui/icons-material";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context";
 import { GoogleLogout } from "react-google-login";
+import {
+    AppBar,
+    Box,
+    Button,
+    Container,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Header = () => {
     const history = useNavigate();
     const loginContext = useContext(LoginContext);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const pages = [
+        { name: "Home", route: "/" },
+        { name: "Agendar", route: "/agendar" },
+        { name: "Minha agenda", route: "/minha-agenda" },
+    ];
+
     const logout = () => {
         try {
-            fetch(`http://localhost:5000/logout`, {
+            fetch(`http://${"10.0.0.19"}:8000/logout`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -42,30 +61,175 @@ const Header = () => {
         }
     };
 
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
     return (
         <div className="user">
-            <PermIdentityOutlined fontSize="large"></PermIdentityOutlined>
-            {loginContext.stateLogin.session ? (
-                <div>
-                    <p>{`Olá, ${
-                        loginContext.stateLogin.userData.name.split(" ")[0]
-                    }`}</p>
-                    <span>Não é você?</span>
-                    {loginContext.stateLogin.userData.id ? (
-                        <span className="logout" onClick={logout}>
-                            Sair
-                        </span>
-                    ) : loginContext.stateLogin.userData.name ? (
-                        <GoogleLogout
-                            clientId="384181648681-953cr75doj2h1kkg36ac0keihc3u0vqu.apps.googleusercontent.com"
-                            buttonText="Sair"
-                            onLogoutSuccess={logout}
-                        ></GoogleLogout>
-                    ) : null}
-                </div>
-            ) : (
-                <span onClick={() => history("/login")}>Login</span>
-            )}
+            <AppBar position="static" sx={{ backgroundColor: "#300202" }}>
+                <Container maxWidth="xl">
+                    <Toolbar
+                        disableGutters
+                        sx={{ justifyContent: "space-between" }}
+                    >
+                        <Typography
+                            variant="h6"
+                            component="div"
+                            sx={{
+                                mr: 2,
+                                display: { xs: "none", md: "flex" },
+                                fontWeight: 700,
+                                letterSpacing: ".1rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
+                        >
+                            Simetria
+                        </Typography>
+                        {loginContext.stateLogin.session ? (
+                            <>
+                                <Box
+                                    sx={{
+                                        flexGrow: 1,
+                                        display: { xs: "flex", md: "none" },
+                                    }}
+                                >
+                                    <IconButton
+                                        size="large"
+                                        aria-label="account of current user"
+                                        aria-controls="menu-appbar"
+                                        aria-haspopup="true"
+                                        onClick={handleOpenNavMenu}
+                                        color="inherit"
+                                    >
+                                        <MenuIcon />
+                                    </IconButton>
+                                    <Menu
+                                        id="menu-appbar"
+                                        anchorEl={anchorElNav}
+                                        anchorOrigin={{
+                                            vertical: "bottom",
+                                            horizontal: "left",
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: "top",
+                                            horizontal: "left",
+                                        }}
+                                        open={Boolean(anchorElNav)}
+                                        onClose={handleCloseNavMenu}
+                                        sx={{
+                                            display: {
+                                                xs: "block",
+                                                md: "none",
+                                            },
+                                        }}
+                                    >
+                                        {pages.map((page, index) => (
+                                            <MenuItem
+                                                onClick={handleCloseNavMenu}
+                                                key={index}
+                                            >
+                                                <Link
+                                                    className="header-link"
+                                                    to={page.route}
+                                                >
+                                                    <Typography textAlign="center">
+                                                        {page.name}
+                                                    </Typography>
+                                                </Link>
+                                            </MenuItem>
+                                        ))}
+                                    </Menu>
+                                </Box>
+                                <Typography
+                                    variant="h5"
+                                    noWrap
+                                    component="a"
+                                    sx={{
+                                        mr: 2,
+                                        display: { xs: "flex", md: "none" },
+                                        flexGrow: 1,
+                                        fontWeight: 700,
+                                        letterSpacing: ".1rem",
+                                        color: "inherit",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Simetria
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        flexGrow: 1,
+                                        display: { xs: "none", md: "flex" },
+                                    }}
+                                >
+                                    {pages.map((page, index) => (
+                                        <Link
+                                            className="header-link"
+                                            to={page.route}
+                                            key={index}
+                                        >
+                                            <Button
+                                                onClick={handleCloseNavMenu}
+                                                sx={{
+                                                    my: 2,
+                                                    color: "white",
+                                                    display: "block",
+                                                }}
+                                            >
+                                                {page.name}
+                                            </Button>
+                                        </Link>
+                                    ))}
+                                </Box>
+                                <AccountCircle
+                                    fontSize="large"
+                                    sx={{ marginRight: "10px" }}
+                                />
+                                <div className="user-login">
+                                    <p>{`Olá, ${
+                                        loginContext.stateLogin.userData.name.split(
+                                            " "
+                                        )[0]
+                                    }`}</p>
+                                    <div>
+                                        <span>Não é você?</span>
+                                        {loginContext.stateLogin.userData.id ? (
+                                            <button
+                                                className="logout"
+                                                onClick={logout}
+                                            >
+                                                Sair
+                                            </button>
+                                        ) : loginContext.stateLogin.userData
+                                              .name ? (
+                                            <GoogleLogout
+                                                icon={false}
+                                                className="logout-google"
+                                                clientId="384181648681-953cr75doj2h1kkg36ac0keihc3u0vqu.apps.googleusercontent.com"
+                                                buttonText="Sair"
+                                                onLogoutSuccess={logout}
+                                            ></GoogleLogout>
+                                        ) : null}
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <MenuItem>
+                                <button onClick={() => history("/login")}>
+                                    Login
+                                </button>
+                            </MenuItem>
+                        )}
+                    </Toolbar>
+                </Container>
+            </AppBar>
         </div>
     );
 };

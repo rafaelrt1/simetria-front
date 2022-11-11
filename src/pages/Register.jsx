@@ -54,8 +54,8 @@ const Register = ({ navigation }) => {
         try {
             setVisibleLoader(true);
 
-            fetch(`http://localhost:5000/register`, {
-                // fetch(`http://${hostHome}:5000/register`, {
+            fetch(`http://${"10.0.0.19"}:8000/register`, {
+                // fetch(`http://${hostHome}:8000/register`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
