@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
 import { LoginContext } from "../context";
-import LoadingButton from "@mui/lab/LoadingButton";
+// import LoadingButton from "@mui/lab/LoadingButton";
 import { display } from "@mui/system";
 import FeedbackMessage from "../components/FeedbackMessage";
 
@@ -274,7 +274,7 @@ const Agenda = () => {
                                                         id={reserve.id}
                                                     >
                                                         {reserve.pagavel ? (
-                                                            <LoadingButton
+                                                            <Button
                                                                 size="medium"
                                                                 id={reserve.id.toString()}
                                                                 onClick={(
@@ -290,15 +290,10 @@ const Agenda = () => {
                                                                         event
                                                                     );
                                                                 }}
-                                                                loading={
-                                                                    loading &&
-                                                                    chosenReserve ===
-                                                                        reserve.id
-                                                                }
                                                                 variant="contained"
                                                             >
                                                                 Pagar
-                                                            </LoadingButton>
+                                                            </Button>
                                                         ) : null}
                                                         <Button
                                                             variant="contained"
