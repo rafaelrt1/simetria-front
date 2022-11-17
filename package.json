@@ -16,7 +16,6 @@
     "@mui/material": "^5.10.13",
     "@mui/x-date-pickers": "^5.0.8",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "expo-auth-session": "^3.7.2",
     "gapi-script": "^1.2.0",
     "moment": "^2.29.4",
