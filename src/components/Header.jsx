@@ -15,6 +15,7 @@ import {
     Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Header = () => {
     const history = useNavigate();
@@ -28,7 +29,7 @@ const Header = () => {
 
     const logout = () => {
         try {
-            fetch(`http://${"10.0.0.19"}:8000/logout`, {
+            fetch(`http://${ENDPOINT}/logout`, {
                 method: "POST",
                 mode: "cors",
                 headers: {

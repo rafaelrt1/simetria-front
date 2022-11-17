@@ -23,6 +23,7 @@ import { LoginContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Agendar = () => {
     const searchContext = useContext(LoginContext);
@@ -124,8 +125,7 @@ const Agendar = () => {
 
     const getServices = () => {
         try {
-            // fetch(`http://${hostHome}:8000/servicos`, {
-            fetch(`http://${"10.0.0.19"}:8000/servicos`, {
+            fetch(`http://${ENDPOINT}/servicos`, {
                 method: "GET",
                 mode: "cors",
                 headers: {

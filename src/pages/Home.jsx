@@ -9,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Home = () => {
     const [profile, setProfile] = useState();
@@ -32,7 +33,7 @@ const Home = () => {
 
     const checkIsLoggedIn = () => {
         try {
-            fetch(`http://${"10.0.0.19"}:8000/permission`, {
+            fetch(`http://${ENDPOINT}/permission`, {
                 method: "GET",
                 mode: "cors",
                 headers: {

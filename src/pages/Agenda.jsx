@@ -15,6 +15,7 @@ import { LoginContext } from "../context";
 // import LoadingButton from "@mui/lab/LoadingButton";
 import { display } from "@mui/system";
 import FeedbackMessage from "../components/FeedbackMessage";
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Agenda = () => {
     const searchContext = useContext(LoginContext);
@@ -55,7 +56,7 @@ const Agenda = () => {
 
     const cancelReserve = () => {
         try {
-            fetch(`http://${"10.0.0.19"}:8000/reserva`, {
+            fetch(`http://${ENDPOINT}/reserva`, {
                 method: "DELETE",
                 mode: "cors",
                 headers: {
@@ -125,7 +126,7 @@ const Agenda = () => {
     };
 
     const getUserReserves = () => {
-        fetch(`http://${"10.0.0.19"}:8000/reservas`, {
+        fetch(`http://${ENDPOINT}/reservas`, {
             method: "GET",
             mode: "cors",
             headers: {
@@ -154,7 +155,7 @@ const Agenda = () => {
     const handlePayment = (event) => {
         const reservationId = event.target.id;
 
-        fetch(`http://${"10.0.0.19"}:8000/qrcode?order=${reservationId}`, {
+        fetch(`http://${ENDPOINT}/qrcode?order=${reservationId}`, {
             method: "GET",
             mode: "cors",
             headers: {

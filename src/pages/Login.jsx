@@ -7,6 +7,7 @@ import { LoginContext } from "../context";
 import CircularProgress from "@mui/material/CircularProgress";
 import FeedbackMessage from "../components/FeedbackMessage";
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Login = () => {
     const [visibleLoader, setVisibleLoader] = useState(false);
@@ -82,7 +83,7 @@ const Login = () => {
     const handleGoogleUserAuthenticated = (googleResponse) => {
         try {
             setVisibleLoader(true);
-            fetch(`http://${"10.0.0.19"}:8000/google-user`, {
+            fetch(`http://${ENDPOINT}/google-user`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -147,8 +148,7 @@ const Login = () => {
     const tryLogin = (data, e) => {
         try {
             setVisibleLoader(true);
-            // fetch(`http://${hostHome}:8000/login`, {
-            fetch(`http://${"10.0.0.19"}:8000/login`, {
+            fetch(`http://${ENDPOINT}/login`, {
                 method: "POST",
                 mode: "cors",
                 headers: {

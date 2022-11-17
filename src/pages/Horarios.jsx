@@ -6,6 +6,7 @@ import FeedbackMessage from "../components/FeedbackMessage";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
 import { LoginContext } from "../context";
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Horarios = () => {
     const [availability, setAvailability] = useState([]);
@@ -48,7 +49,7 @@ const Horarios = () => {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             await fetch(
-                `http://${"10.0.0.19"}:8000/infos?professional=${professionalSelected}&service=${serviceSelected}&date=${urlParams.get(
+                `http://${ENDPOINT}/infos?professional=${professionalSelected}&service=${serviceSelected}&date=${urlParams.get(
                     "date"
                 )} ${timeSelected}`,
                 {
@@ -80,7 +81,7 @@ const Horarios = () => {
         const date = urlParams.get("date");
 
         let infos = await fetch(
-            `http://${"10.0.0.19"}:8000/infos?professional=${
+            `http://${ENDPOINT}/infos?professional=${
                 event.target.id
             }&service=${urlParams.get("service")}&date=${urlParams.get(
                 "date"
@@ -141,7 +142,7 @@ const Horarios = () => {
         try {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            let url = `http://${"10.0.0.19"}:8000/horarios?&servico=${urlParams.get(
+            let url = `http://${ENDPOINT}/horarios?&servico=${urlParams.get(
                 "service"
             )}&data=${urlParams.get("date")}`;
             // let url = `http://${hostIf}:8000/horarios?&servico=${data.service}&data=${data.date}`;
@@ -177,8 +178,7 @@ const Horarios = () => {
     };
 
     const tryReserve = () => {
-        // fetch(`http://${hostHome}:8000/horario`, {
-        fetch(`http://${"10.0.0.19"}:8000/horario`, {
+        fetch(`http://${ENDPOINT}/horario`, {
             method: "POST",
             mode: "cors",
             headers: {

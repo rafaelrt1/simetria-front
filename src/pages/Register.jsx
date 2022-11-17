@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import FeedbackMessage from "../components/FeedbackMessage";
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Register = ({ navigation }) => {
     const history = useNavigate();
@@ -54,8 +55,7 @@ const Register = ({ navigation }) => {
         try {
             setVisibleLoader(true);
 
-            fetch(`http://${"10.0.0.19"}:8000/register`, {
-                // fetch(`http://${hostHome}:8000/register`, {
+            fetch(`http://${ENDPOINT}/register`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
