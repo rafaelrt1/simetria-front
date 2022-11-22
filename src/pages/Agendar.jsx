@@ -23,6 +23,7 @@ import { LoginContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
+import Footer from "../components/Footer";
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Agendar = () => {
@@ -664,6 +665,7 @@ const Agendar = () => {
                     <NotAllowed />
                 )}
             </div>
+            <Footer></Footer>
         </>
     );
 };

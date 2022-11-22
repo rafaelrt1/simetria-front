@@ -12,9 +12,9 @@ import { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
 import { LoginContext } from "../context";
-// import LoadingButton from "@mui/lab/LoadingButton";
-import { display } from "@mui/system";
 import FeedbackMessage from "../components/FeedbackMessage";
+import Footer from "../components/Footer";
+import { LoadingButton } from "@mui/lab";
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Agenda = () => {
@@ -275,9 +275,14 @@ const Agenda = () => {
                                                         id={reserve.id}
                                                     >
                                                         {reserve.pagavel ? (
-                                                            <Button
+                                                            <LoadingButton
                                                                 size="medium"
                                                                 id={reserve.id.toString()}
+                                                                loading={
+                                                                    loading &&
+                                                                    chosenReserve ===
+                                                                        reserve.id
+                                                                }
                                                                 onClick={(
                                                                     event
                                                                 ) => {
@@ -294,7 +299,7 @@ const Agenda = () => {
                                                                 variant="contained"
                                                             >
                                                                 Pagar
-                                                            </Button>
+                                                            </LoadingButton>
                                                         ) : null}
                                                         <Button
                                                             variant="contained"
@@ -457,6 +462,7 @@ const Agenda = () => {
                     <NotAllowed />
                 )}
             </div>
+            <Footer></Footer>
         </>
     );
 };

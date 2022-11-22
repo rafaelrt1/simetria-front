@@ -9,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
+import Footer from "../components/Footer";
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Home = () => {
@@ -139,6 +140,7 @@ const Home = () => {
                     )}
                 </div>
             </div>
+            <Footer></Footer>
         </>
     );
 };

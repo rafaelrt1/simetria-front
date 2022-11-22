@@ -72,7 +72,10 @@ const Header = () => {
 
     return (
         <div className="user">
-            <AppBar position="static" sx={{ backgroundColor: "#300202" }}>
+            <AppBar
+                position="static"
+                sx={{ backgroundColor: "#300202", padding: "20px 0" }}
+            >
                 <Container maxWidth="xl">
                     <Toolbar
                         disableGutters

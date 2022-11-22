@@ -3,6 +3,7 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FeedbackMessage from "../components/FeedbackMessage";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
 import { LoginContext } from "../context";
@@ -413,6 +414,7 @@ const Horarios = () => {
                     <NotAllowed />
                 )}
             </div>
+            <Footer></Footer>
         </>
     );
 };

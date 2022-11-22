@@ -303,9 +303,9 @@ const Login = () => {
                     />
 
                     <div className="register">
-                        <h2>Ainda não tem uma conta?</h2>
+                        <h4>Ainda não tem uma conta?</h4>
                         <Link className="register-link" to="/cadastro">
-                            <p className="anchor">Cadastre-se</p>
+                            <p className="anchor">Criar conta</p>
                         </Link>
                     </div>
 

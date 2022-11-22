@@ -11,7 +11,7 @@ const NotAllowed = () => {
                 <button>Fazer Login</button>
             </Link>
             <p>ou</p>
-            <Link to="/register">
+            <Link to="/cadastro">
                 <button>Criar conta</button>
             </Link>
         </Container>

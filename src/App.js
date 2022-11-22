@@ -8,6 +8,7 @@ import Agendar from "./pages/Agendar";
 import Horarios from "./pages/Horarios";
 import { useContext } from "react";
 import Agenda from "./pages/Agenda";
+import NotFound from "./pages/NotFound";
 
 function App() {
     const searchContext = useContext(LoginContext);
@@ -44,11 +45,11 @@ function App() {
         <BrowserRouter>
             <ContextProvider>
                 <Routes>
+                    <Route path="*" element={<NotFound />} />
                     <Route path="/cadastro" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                     <Route exact path="/" element={<Home />} />
                     <Route path="agendar" element={<Agendar />} />
-                    <Route path="register" element={<Register />} />
                     <Route path="horarios" element={<Horarios />} />
                     <Route path="minha-agenda" element={<Agenda />} />
                 </Routes>
