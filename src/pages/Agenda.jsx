@@ -242,7 +242,7 @@ const Agenda = () => {
                                                             }}
                                                             gutterBottom
                                                             id={reserve.id}
-                                                        >{`Preço: ${parseInt(
+                                                        >{`Preço: ${parseFloat(
                                                             reserve.preco
                                                         ).toLocaleString(
                                                             "pt-br",
