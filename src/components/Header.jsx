@@ -29,7 +29,7 @@ const Header = () => {
 
     const logout = () => {
         try {
-            fetch(`http://${ENDPOINT}/logout`, {
+            fetch(`${ENDPOINT}/logout`, {
                 method: "POST",
                 mode: "cors",
                 headers: {

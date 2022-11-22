@@ -56,7 +56,7 @@ const Agenda = () => {
 
     const cancelReserve = () => {
         try {
-            fetch(`http://${ENDPOINT}/reserva`, {
+            fetch(`${ENDPOINT}/reserva`, {
                 method: "DELETE",
                 mode: "cors",
                 headers: {
@@ -126,7 +126,7 @@ const Agenda = () => {
     };
 
     const getUserReserves = () => {
-        fetch(`http://${ENDPOINT}/reservas`, {
+        fetch(`${ENDPOINT}/reservas`, {
             method: "GET",
             mode: "cors",
             headers: {
@@ -155,7 +155,7 @@ const Agenda = () => {
     const handlePayment = (event) => {
         const reservationId = event.target.id;
 
-        fetch(`http://${ENDPOINT}/qrcode?order=${reservationId}`, {
+        fetch(`${ENDPOINT}/qrcode?order=${reservationId}`, {
             method: "GET",
             mode: "cors",
             headers: {

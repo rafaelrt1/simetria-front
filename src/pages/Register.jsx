@@ -57,7 +57,7 @@ const Register = ({ navigation }) => {
         try {
             setVisibleLoader(true);
 
-            fetch(`http://${ENDPOINT}/register`, {
+            fetch(`${ENDPOINT}/register`, {
                 method: "POST",
                 mode: "cors",
                 headers: {

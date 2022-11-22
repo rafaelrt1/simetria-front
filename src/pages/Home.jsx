@@ -34,7 +34,7 @@ const Home = () => {
 
     const checkIsLoggedIn = () => {
         try {
-            fetch(`http://${ENDPOINT}/permission`, {
+            fetch(`${ENDPOINT}/permission`, {
                 method: "GET",
                 mode: "cors",
                 headers: {

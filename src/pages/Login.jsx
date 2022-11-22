@@ -83,7 +83,7 @@ const Login = () => {
     const handleGoogleUserAuthenticated = (googleResponse) => {
         try {
             setVisibleLoader(true);
-            fetch(`http://${ENDPOINT}/google-user`, {
+            fetch(`${ENDPOINT}/google-user`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -148,7 +148,7 @@ const Login = () => {
     const tryLogin = (data, e) => {
         try {
             setVisibleLoader(true);
-            fetch(`http://${ENDPOINT}/login`, {
+            fetch(`${ENDPOINT}/login`, {
                 method: "POST",
                 mode: "cors",
                 headers: {

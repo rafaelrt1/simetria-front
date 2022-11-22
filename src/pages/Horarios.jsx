@@ -50,7 +50,7 @@ const Horarios = () => {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             await fetch(
-                `http://${ENDPOINT}/infos?professional=${professionalSelected}&service=${serviceSelected}&date=${urlParams.get(
+                `${ENDPOINT}/infos?professional=${professionalSelected}&service=${serviceSelected}&date=${urlParams.get(
                     "date"
                 )} ${timeSelected}`,
                 {
@@ -82,7 +82,7 @@ const Horarios = () => {
         const date = urlParams.get("date");
 
         let infos = await fetch(
-            `http://${ENDPOINT}/infos?professional=${
+            `${ENDPOINT}/infos?professional=${
                 event.target.id
             }&service=${urlParams.get("service")}&date=${urlParams.get(
                 "date"
@@ -143,7 +143,7 @@ const Horarios = () => {
         try {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            let url = `http://${ENDPOINT}/horarios?&servico=${urlParams.get(
+            let url = `${ENDPOINT}/horarios?&servico=${urlParams.get(
                 "service"
             )}&data=${urlParams.get("date")}`;
             // let url = `http://${hostIf}:8000/horarios?&servico=${data.service}&data=${data.date}`;
@@ -179,7 +179,7 @@ const Horarios = () => {
     };
 
     const tryReserve = () => {
-        fetch(`http://${ENDPOINT}/horario`, {
+        fetch(`${ENDPOINT}/horario`, {
             method: "POST",
             mode: "cors",
             headers: {
