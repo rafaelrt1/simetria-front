@@ -152,7 +152,7 @@ const Header = () => {
                                     </Menu>
                                 </Box>
                                 <Typography
-                                    variant="h5"
+                                    variant="h6"
                                     noWrap
                                     component="a"
                                     sx={{
@@ -226,9 +226,14 @@ const Header = () => {
                             </>
                         ) : (
                             <MenuItem>
-                                <button onClick={() => history("/login")}>
-                                    Login
-                                </button>
+                                <Button
+                                    onClick={() => history("/login")}
+                                    size="medium"
+                                    variant="outlined"
+                                    sx={{ backgroundColor: "#FFFFFF" }}
+                                >
+                                    Entrar
+                                </Button>
                             </MenuItem>
                         )}
                     </Toolbar>

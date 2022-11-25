@@ -15,6 +15,8 @@ import { LoginContext } from "../context";
 import FeedbackMessage from "../components/FeedbackMessage";
 import Footer from "../components/Footer";
 import { LoadingButton } from "@mui/lab";
+import PaidIcon from "@mui/icons-material/Paid";
+import PixIcon from "@mui/icons-material/Pix";
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Agenda = () => {
@@ -50,8 +52,12 @@ const Agenda = () => {
     const handleClose = () => {
         setPayment(undefined);
         setCopyButtonText("Copiar Código");
-        setCopyButtonText("Copiar Código");
         setOpen(false);
+        getUserReserves();
+    };
+
+    const checkIsPastDate = (date) => {
+        return new Date(date) < new Date();
     };
 
     const cancelReserve = () => {
@@ -69,7 +75,7 @@ const Agenda = () => {
                 .then((res) => res.json())
                 .then(
                     (result) => {
-                        if (result.erro) {
+                        if (result.erro === "Usuário deslogado") {
                             setAcessDenied(true);
                             return;
                         }
@@ -88,7 +94,6 @@ const Agenda = () => {
                             "error",
                             10000
                         );
-                        setAcessDenied(true);
                         console.error(error);
                     }
                 );
@@ -138,7 +143,7 @@ const Agenda = () => {
             .then((res) => res.json())
             .then(
                 (result) => {
-                    if (result.erro) {
+                    if (result.erro === "Usuário deslogado") {
                         setAcessDenied(true);
                         return;
                     }
@@ -146,7 +151,6 @@ const Agenda = () => {
                     setReserves(result);
                 },
                 (error) => {
-                    setAcessDenied(true);
                     console.error(error);
                 }
             );
@@ -168,7 +172,7 @@ const Agenda = () => {
             .then(
                 (result) => {
                     setLoading(false);
-                    if (result.erro) {
+                    if (result.erro === "Usuário deslogado") {
                         setAcessDenied(true);
                         return;
                     }
@@ -178,7 +182,6 @@ const Agenda = () => {
                 },
                 (error) => {
                     setLoading(false);
-                    setAcessDenied(true);
                     console.error(error);
                 }
             );
@@ -186,6 +189,7 @@ const Agenda = () => {
 
     useEffect(() => {
         getUserReserves();
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -211,7 +215,7 @@ const Agenda = () => {
                                             >
                                                 <Card
                                                     sx={{
-                                                        minWidth: 275,
+                                                        // minWidth: 275,
                                                         boxShadow: 0,
                                                     }}
                                                     id={reserve.id}
@@ -270,71 +274,98 @@ const Agenda = () => {
                                                         sx={{
                                                             display: "flex",
                                                             justifyContent:
-                                                                "space-between",
+                                                                "center",
+                                                            gap: "10px",
                                                         }}
                                                         id={reserve.id}
                                                     >
                                                         {reserve.pagavel ? (
-                                                            <LoadingButton
-                                                                size="medium"
-                                                                id={reserve.id.toString()}
-                                                                loading={
-                                                                    loading &&
-                                                                    chosenReserve ===
-                                                                        reserve.id
-                                                                }
-                                                                onClick={(
-                                                                    event
-                                                                ) => {
-                                                                    setChosenReserve(
-                                                                        reserve.id
-                                                                    );
-                                                                    setLoading(
-                                                                        true
-                                                                    );
-                                                                    handlePayment(
-                                                                        event
-                                                                    );
-                                                                }}
-                                                                variant="contained"
-                                                            >
-                                                                Pagar
-                                                            </LoadingButton>
-                                                        ) : null}
-                                                        <Button
-                                                            variant="contained"
-                                                            size="medium"
-                                                            id={reserve.id.toString()}
-                                                            color="error"
-                                                            onClick={(
-                                                                event
-                                                            ) => {
-                                                                const selectedReserve =
-                                                                    reserves.filter(
-                                                                        (
-                                                                            reserve
-                                                                        ) => {
-                                                                            return (
-                                                                                reserve.id ===
-                                                                                parseInt(
+                                                            <>
+                                                                {!Boolean(
+                                                                    reserve.pago
+                                                                ) ? (
+                                                                    <div>
+                                                                        <LoadingButton
+                                                                            size="medium"
+                                                                            id={reserve.id.toString()}
+                                                                            loading={
+                                                                                loading &&
+                                                                                chosenReserve ===
+                                                                                    reserve.id
+                                                                            }
+                                                                            variant="outlined"
+                                                                            onClick={(
+                                                                                event
+                                                                            ) => {
+                                                                                setChosenReserve(
+                                                                                    reserve.id
+                                                                                );
+                                                                                setLoading(
+                                                                                    true
+                                                                                );
+                                                                                handlePayment(
                                                                                     event
-                                                                                        .target
-                                                                                        .id
-                                                                                )
-                                                                            );
-                                                                        }
-                                                                    )[0];
-                                                                console.log(
-                                                                    selectedReserve
-                                                                );
-                                                                setChosenReserve(
-                                                                    selectedReserve
-                                                                );
-                                                                setOpen(true);
-                                                            }}
-                                                        >
-                                                            Cancelar
-                                                        </Button>
+                                                                                );
+                                                                            }}
+                                                                        >
+                                                                            Pagar
+                                                                            com
+                                                                            pix
+                                                                            <PixIcon
+                                                                                sx={{
+                                                                                    color: "#498a6f",
+                                                                                }}
+                                                                            ></PixIcon>
+                                                                        </LoadingButton>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className="tag-paid">
+                                                                        <span>
+                                                                            Pago
+                                                                        </span>
+                                                                        <PaidIcon></PaidIcon>
+                                                                    </div>
+                                                                )}
+                                                            </>
+                                                        ) : null}
+                                                        {!reserve.pago &&
+                                                            !checkIsPastDate(
+                                                                reserve.dataFim
+                                                            ) && (
+                                                                <Button
+                                                                    variant="contained"
+                                                                    size="medium"
+                                                                    id={reserve.id.toString()}
+                                                                    color="error"
+                                                                    onClick={(
+                                                                        event
+                                                                    ) => {
+                                                                        const selectedReserve =
+                                                                            reserves.filter(
+                                                                                (
+                                                                                    reserve
+                                                                                ) => {
+                                                                                    return (
+                                                                                        reserve.id ===
+                                                                                        parseInt(
+                                                                                            event
+                                                                                                .target
+                                                                                                .id
+                                                                                        )
+                                                                                    );
+                                                                                }
+                                                                            )[0];
+                                                                        setChosenReserve(
+                                                                            selectedReserve
+                                                                        );
+                                                                        setOpen(
+                                                                            true
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    Cancelar
+                                                                </Button>
+                                                            )}
                                                     </CardActions>
                                                 </Card>
                                             </Paper>
@@ -370,6 +401,7 @@ const Agenda = () => {
                                             </Typography>
                                             <img
                                                 src={payment.imagemQrcode}
+                                                alt="QR Code para pagamento"
                                             ></img>
                                             <div className="options-modal">
                                                 <Button

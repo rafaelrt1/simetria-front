@@ -1,18 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { useForm, Controller, useController } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import {
-    Button,
     createTheme,
     FormControl,
     FormControlLabel,
     FormLabel,
     InputLabel,
     MenuItem,
-    Popover,
     Radio,
     RadioGroup,
     Select,
@@ -20,7 +18,6 @@ import {
     Typography,
 } from "@mui/material";
 import { LoginContext } from "../context";
-import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import NotAllowed from "../components/NotAllowed";
 import Footer from "../components/Footer";
@@ -28,10 +25,6 @@ const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Agendar = () => {
     const searchContext = useContext(LoginContext);
-    const history = useNavigate();
-    const hostHome = "10.0.0.19";
-    const hostBruna = "192.168.0.199";
-    const hostIf = "10.40.2.149";
     const daysOfWeek = {
         Su: "D",
         Mo: "S",
@@ -50,20 +43,8 @@ const Agendar = () => {
     const [customerOptionServices, setCustomerOptionServices] = useState([]);
     const [serviceSelected, setServiceSelected] = useState({});
     const [nameProfessionalSelected, setNameProfessionalSelected] = useState();
-    const [anchorEl, setAnchorEl] = useState(null);
     const [options, setOptions] = useState([]);
     const [accessDenied, setAcessDenied] = useState();
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const open = Boolean(anchorEl);
-    const id = open ? "simple-popover" : undefined;
 
     const isValidDate = () => {
         let date = getValues("date");
@@ -91,7 +72,7 @@ const Agendar = () => {
         setError,
         clearErrors,
         getValues,
-        formState: { isValid, isDirty, errors },
+        formState: { errors },
     } = useForm({
         defaultValues: {
             date: getInitialDate(),
@@ -138,7 +119,7 @@ const Agendar = () => {
                 .then((res) => res.json())
                 .then(
                     (result) => {
-                        if (result.erro) {
+                        if (result.erro === "Usuário deslogado") {
                             setAcessDenied(true);
                             return;
                         }
@@ -189,6 +170,7 @@ const Agendar = () => {
 
     useEffect(() => {
         getServices();
+        // eslint-disable-next-line
     }, []);
 
     return (

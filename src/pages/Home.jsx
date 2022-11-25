@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../context";
 import {
@@ -13,10 +13,8 @@ import Footer from "../components/Footer";
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Home = () => {
-    const [profile, setProfile] = useState();
     const loginContext = useContext(LoginContext);
     const [accessDenied, setAcessDenied] = useState();
-    const history = useNavigate();
     const pages = [
         {
             pages: [
@@ -46,7 +44,7 @@ const Home = () => {
                 .then((res) => res.json())
                 .then(
                     (result) => {
-                        if (result.erro) {
+                        if (result.erro === "Usuário deslogado") {
                             setAcessDenied(true);
                             localStorage.setItem("userToken", "");
                             localStorage.setItem("userData", "");
@@ -55,7 +53,6 @@ const Home = () => {
                                 session: null,
                                 userData: null,
                             });
-                            // history("/login");
                             return;
                         } else {
                             setAcessDenied(false);
@@ -72,6 +69,7 @@ const Home = () => {
 
     useEffect(() => {
         checkIsLoggedIn();
+        // eslint-disable-next-line
     }, []);
 
     return (

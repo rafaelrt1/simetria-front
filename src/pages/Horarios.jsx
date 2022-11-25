@@ -1,4 +1,3 @@
-import { RestartAlt } from "@mui/icons-material";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,9 +11,6 @@ const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 const Horarios = () => {
     const [availability, setAvailability] = useState([]);
     const [chosenReserve, setChosenReserve] = useState({});
-    const hostHome = "10.0.0.19";
-    const hostBruna = "192.168.0.199";
-    const hostIf = "10.40.2.149";
     const searchContext = useContext(LoginContext);
     const [open, setOpen] = useState(false);
     const [suggestedTime, setSuggestedTime] = useState("");
@@ -41,40 +37,6 @@ const Horarios = () => {
         }, time);
     };
 
-    const getInfosFromSelectedReserve = async (
-        professionalSelected,
-        serviceSelected,
-        timeSelected
-    ) => {
-        try {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            await fetch(
-                `${ENDPOINT}/infos?professional=${professionalSelected}&service=${serviceSelected}&date=${urlParams.get(
-                    "date"
-                )} ${timeSelected}`,
-                {
-                    method: "GET",
-                    mode: "cors",
-                    headers: {
-                        Authorization: `${searchContext.stateLogin.session}`,
-                        Accept: "application/json",
-                        "Content-Type": "application/json;charset=UTF-8",
-                    },
-                }
-            )
-                .then((res) => res.json())
-                .then((result) => {
-                    if (result.erro) {
-                        setAcessDenied(true);
-                        return;
-                    }
-                    setAcessDenied(false);
-                    return result;
-                });
-        } catch (e) {}
-    };
-
     const handleOpen = async (event) => {
         setSuggestedTime("");
         const queryString = window.location.search;
@@ -99,7 +61,7 @@ const Horarios = () => {
         )
             .then((res) => res.json())
             .then((result) => {
-                if (result.erro) {
+                if (result.erro === "Usuário deslogado") {
                     setAcessDenied(true);
                     return;
                 }
@@ -162,7 +124,7 @@ const Horarios = () => {
                 .then((res) => res.json())
                 .then(
                     (result) => {
-                        if (result.erro) {
+                        if (result.erro === "Usuário deslogado") {
                             setAcessDenied(true);
                             return;
                         }
@@ -197,7 +159,7 @@ const Horarios = () => {
             .then((res) => res.json())
             .then(
                 (result) => {
-                    if (result.erro) {
+                    if (result.erro === "Usuário deslogado") {
                         setAcessDenied(true);
                         return;
                     }
@@ -218,7 +180,6 @@ const Horarios = () => {
                     }
                 },
                 (error) => {
-                    setAcessDenied(true);
                     console.error(error);
                 }
             );
@@ -226,6 +187,7 @@ const Horarios = () => {
 
     useEffect(() => {
         searchAvailability();
+        // eslint-disable-next-line
     }, []);
 
     return (

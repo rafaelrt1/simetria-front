@@ -10,11 +10,6 @@ const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 const Register = ({ navigation }) => {
     const history = useNavigate();
     const [visibleLoader, setVisibleLoader] = useState(false);
-    const [user, setUser] = useState();
-    const [password, setPassword] = useState();
-    const [email, setEmail] = useState();
-    const hostHome = "10.0.0.19";
-    const hostBruna = "192.168.0.199";
     const [feedbackMessage, setFeedbackMessage] = useState({
         message: "",
         messageType: "",

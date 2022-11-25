@@ -18,8 +18,6 @@ const Login = () => {
     });
     const [hiddenPassword, setHiddenPassword] = useState(true);
     const [iconPassword, setIconPassword] = useState("eye");
-    const hostHome = "10.0.0.19";
-    const hostBruna = "192.168.0.199";
     const loginContext = useContext(LoginContext);
     const history = useNavigate();
 

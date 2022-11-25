@@ -135,6 +135,7 @@ body, #root {
 }
 .cards-times {
     padding: 20px 0 30px;
+    margin: 0 20px;
 }
 .cards-times:not(:last-child) {
     font-size: 24px;
@@ -223,6 +224,7 @@ body, #root {
     font-size: 24px;
     text-align: center;
     margin-bottom: 0;
+    font-weight: bold;
 }
 
 .option  {
@@ -312,9 +314,18 @@ body, #root {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 40px;
+    border-radius: 5px;
+}
+
+.container-form-not-allowed {
     background-color: #FFFFFF;
     padding: 40px;
     border-radius: 5px;
+}
+
+.not-allowed-label {
+    text-align: center;
 }
 
 .mainButton:disabled, .secondaryButton:disabled {
@@ -397,7 +408,7 @@ body, #root {
 }
 
 .home-link:hover {
-    background-color: #F0D4D4;
+    background-color: #FFFFFF;
 }
 
 .logout-google {
@@ -466,6 +477,21 @@ h1.error-404 {
     color: inherit;
     padding: 10px;
     border-radius: 10px;
+}
+
+.not-alloewd-options {
+    display: flex;
+    justify-content: center;
+}
+
+.tag-paid {
+    background-color: #27c327;
+    font-weight: bold;
+    color: #FFFFFF;
+    padding: 8px 10px;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 3px;
 }
 
 @media (max-width: 768px) {
