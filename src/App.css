@@ -252,7 +252,7 @@ body, #root {
 
 .label-float input{
     border: 1px solid #DD9191;
-    padding: 20px 10px 6px;
+    padding: 20px 30px 6px 10px;
     /* border-bottom: 2px solid lightgrey; */
     outline: none;
     min-width: 180px;
@@ -261,7 +261,7 @@ body, #root {
     -webkit-transition: all .3s ease-out;
     -moz-transition: all .3s ease-out;
     border-radius: 10px;
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
 }
 
 .label-float input:focus{

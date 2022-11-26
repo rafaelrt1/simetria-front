@@ -1,6 +1,5 @@
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -15,6 +14,7 @@ const Footer = () => {
                 <div className="social-links">
                     <a
                         href="https://www.instagram.com/simetria_bybrunabresolin/"
+                        rel="noreferrer"
                         target="_blank"
                     >
                         <InstagramIcon
@@ -24,6 +24,7 @@ const Footer = () => {
                     </a>
                     <a
                         href="https://www.facebook.com/profile.php?id=100049475726524"
+                        rel="noreferrer"
                         target="_blank"
                     >
                         <FacebookIcon

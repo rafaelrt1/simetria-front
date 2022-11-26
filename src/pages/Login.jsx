@@ -1,6 +1,8 @@
 import { useForm, Controller } from "react-hook-form";
 import { gapi } from "gapi-script";
 import GoogleLogin from "react-google-login";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context";
@@ -16,8 +18,7 @@ const Login = () => {
         messageType: "",
         visible: false,
     });
-    const [hiddenPassword, setHiddenPassword] = useState(true);
-    const [iconPassword, setIconPassword] = useState("eye");
+    const [visiblePassword, setVisiblePassword] = useState(false);
     const loginContext = useContext(LoginContext);
     const history = useNavigate();
 
@@ -51,22 +52,11 @@ const Login = () => {
         { key: "Esmaltação em gel e outros…" },
     ];
 
-    // useEffect(() => {
-    //     function start() {
-    //         gapi.client.init({
-    //             clientId: process.env.REACT_PUBLIC_GOOGLE_CLIENT_ID,
-    //             scope: "email",
-    //         });
-    //     }
-    //     gapi.load("client:auth2", start);
-    //     if (
-    //         loginContext.stateLogin.session &&
-    //         loginContext.stateLogin.isLoggedIn
-    //     ) {
-    //         history("/");
-    //     }
-    // }, []);
-
+    useEffect(() => {
+        if (loginContext.stateLogin.session) {
+            history("/");
+        }
+    });
     const {
         control,
         handleSubmit,
@@ -266,13 +256,40 @@ const Login = () => {
                                             placeholder=" "
                                             id="password"
                                             maxLength={60}
-                                            type="password"
-                                            // onBlur={onBlur}
+                                            type={
+                                                visiblePassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
                                             onChange={onChange}
                                             value={value}
                                         ></input>
                                         <label htmlFor="password">Senha</label>
-                                        {/* <Icon name='eye' type='FontAwesome' className='fontSize' 20 }} /> */}
+                                        {visiblePassword ? (
+                                            <VisibilityOffIcon
+                                                sx={{
+                                                    position: "relative",
+                                                    left: "calc(95% - 12px)",
+                                                    bottom: "34px",
+                                                    cursor: "pointer",
+                                                }}
+                                                onClick={() => {
+                                                    setVisiblePassword(false);
+                                                }}
+                                            />
+                                        ) : (
+                                            <VisibilityIcon
+                                                sx={{
+                                                    position: "relative",
+                                                    left: "calc(95% - 12px)",
+                                                    bottom: "34px",
+                                                    cursor: "pointer",
+                                                }}
+                                                onClick={() => {
+                                                    setVisiblePassword(true);
+                                                }}
+                                            />
+                                        )}
                                     </>
                                 )}
                                 name="password"

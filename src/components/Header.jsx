@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const Header = () => {
     const history = useNavigate();
@@ -216,7 +217,7 @@ const Header = () => {
                                             <GoogleLogout
                                                 icon={false}
                                                 className="logout-google"
-                                                clientId="384181648681-953cr75doj2h1kkg36ac0keihc3u0vqu.apps.googleusercontent.com"
+                                                clientId={GOOGLE_CLIENT_ID}
                                                 buttonText="Sair"
                                                 onLogoutSuccess={logout}
                                             ></GoogleLogout>

@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import InputMask from "react-input-mask";
@@ -5,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import FeedbackMessage from "../components/FeedbackMessage";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
-const Register = ({ navigation }) => {
+const Register = () => {
     const history = useNavigate();
     const [visibleLoader, setVisibleLoader] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState({
@@ -15,6 +18,7 @@ const Register = ({ navigation }) => {
         messageType: "",
         visible: false,
     });
+    const [visiblePassword, setVisiblePassword] = useState(false);
 
     const showFeedbackMessage = (message, type, time) => {
         setFeedbackMessage({
@@ -223,13 +227,42 @@ const Register = ({ navigation }) => {
                                 <>
                                     <input
                                         id="password"
-                                        type="password"
+                                        type={
+                                            visiblePassword
+                                                ? "text"
+                                                : "password"
+                                        }
                                         onBlur={onBlur}
                                         onChange={onChange}
                                         value={value}
                                         placeholder=" "
                                     />
                                     <label htmlFor="password">Senha</label>
+                                    {visiblePassword ? (
+                                        <VisibilityOffIcon
+                                            sx={{
+                                                position: "relative",
+                                                left: "calc(95% - 12px)",
+                                                bottom: "34px",
+                                                cursor: "pointer",
+                                            }}
+                                            onClick={() => {
+                                                setVisiblePassword(false);
+                                            }}
+                                        />
+                                    ) : (
+                                        <VisibilityIcon
+                                            sx={{
+                                                position: "relative",
+                                                left: "calc(95% - 12px)",
+                                                bottom: "34px",
+                                                cursor: "pointer",
+                                            }}
+                                            onClick={() => {
+                                                setVisiblePassword(true);
+                                            }}
+                                        />
+                                    )}
                                 </>
                             )}
                             name="password"
@@ -247,7 +280,7 @@ const Register = ({ navigation }) => {
                     </button>
                 </form>
 
-                {/* {visibleLoader ? <ActivityIndicator size="large" /> : null} */}
+                {visibleLoader ? <CircularProgress /> : null}
             </div>
             <Footer></Footer>
         </>
