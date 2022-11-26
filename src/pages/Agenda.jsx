@@ -107,6 +107,8 @@ const Agenda = () => {
     };
 
     const formatDate = (date, optionShowTime) => {
+        if (!date) return;
+        date = date.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
         let formattedDate;
         if (!optionShowTime) {
             formattedDate = `${new Date(date)
