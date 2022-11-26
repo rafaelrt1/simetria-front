@@ -171,6 +171,7 @@ const Horarios = () => {
                             10000
                         );
                         handleClose();
+                        searchAvailability();
                         return;
                     }
                     if (result?.nextAvailable?.length) {
