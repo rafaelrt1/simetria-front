@@ -8,7 +8,7 @@ const NotAllowed = () => {
                 <h1 className="not-allowed-label">
                     Não é possível acessar essa página
                 </h1>
-                <div className="not-alloewd-options">
+                <div className="not-allowed-options">
                     <Link to="/login" className="not-found-link">
                         <Button
                             size="medium"
@@ -18,7 +18,7 @@ const NotAllowed = () => {
                             Entre
                         </Button>
                     </Link>
-                    <p>ou</p>
+                    <span>ou</span>
                     <Link to="/cadastro" className="not-found-link">
                         <Button
                             size="medium"

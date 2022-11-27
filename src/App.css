@@ -479,9 +479,16 @@ h1.error-404 {
     border-radius: 10px;
 }
 
-.not-alloewd-options {
+.not-allowed-options {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .not-allowed-options {
+        flex-direction: column;
+}
 }
 
 .tag-paid {
