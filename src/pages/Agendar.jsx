@@ -48,21 +48,18 @@ const Agendar = () => {
 
     const isValidDate = () => {
         let date = getValues("date");
-        return (
-            date >= new Date().setHours(0, 0, 0, 0) &&
-            date.getDay() !== 0 &&
-            date.getDay() !== 1
-        );
+        return date >= new Date().setHours(0, 0, 0, 0) && date.getDay() !== 0;
     };
 
     const getInitialDate = () => {
         let today = new Date().getDay();
-        if (today !== 0 && today !== 1) return new Date();
+        if (today !== 0) return new Date();
         else if (today === 0) {
-            return new Date(new Date().valueOf() + 1000 * 3600 * 48);
-        } else if (today === 1) {
             return new Date(new Date().valueOf() + 1000 * 3600 * 24);
         }
+        //  else if (today === 1) {
+        //     return new Date(new Date().valueOf() + 1000 * 3600 * 24);
+        // }
     };
 
     const {
@@ -81,7 +78,7 @@ const Agendar = () => {
     });
 
     const isNotAvailable = (date) => {
-        return date.getDay() === 1 || date.getDay() === 0;
+        return date.getDay() === 0;
     };
 
     const separateServicesProfessional = (services) => {

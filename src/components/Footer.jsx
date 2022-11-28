@@ -6,8 +6,7 @@ const Footer = () => {
         <footer>
             <div className="">
                 <p className="title">Horário de Atendimento</p>
-                <p>Ter a Sex: 13:30 - 18:30</p>
-                <p>Sab: 08:00 - 17:00</p>
+                <p>Seg a Sab: 08:30 - 12:00 e 13:30 - 18:30</p>
             </div>
             <div className="social">
                 <p className="title">Redes sociais:</p>

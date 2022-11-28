@@ -128,7 +128,7 @@ const Login = () => {
 
     const responseGoogle = (response) => {
         const {
-            profileObj: { name, email },
+            profileObj: {},
         } = response;
         handleGoogleUserAuthenticated(response);
     };
@@ -326,8 +326,7 @@ const Login = () => {
 
                     <div className="infos">
                         <p className="title">Horário de Atendimento</p>
-                        <p>Ter a Sex: 13:30 - 18:30</p>
-                        <p>Sab: 08:00 - 17:00</p>
+                        <p>Seg a Sab: 08:30 - 12:00 e 13:30 - 18:30</p>
                         <p className="title">Serviços</p>
                         {services.map(function (item, key) {
                             return (

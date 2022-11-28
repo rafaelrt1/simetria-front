@@ -18,8 +18,8 @@ const Navigation = () => {
                     <Route path="/login" element={<Login />} />
                     <Route exact path="/" element={<Home />} />
                     <Route path="agendar" element={<Agendar />} />
-                    <Route path="horarios" element={<Horarios />} />
-                    <Route path="minha-agenda" element={<Agenda />} />
+                    <Route path="/horarios" element={<Horarios />} />
+                    <Route path="/minha-agenda" element={<Agenda />} />
                 </Routes>
             </ContextProvider>
         </BrowserRouter>

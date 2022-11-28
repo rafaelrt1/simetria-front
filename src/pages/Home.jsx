@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../context";
 import {
-    PersonOutlineOutlined,
     CalendarMonthOutlined,
     MenuBookOutlined,
     NewspaperOutlined,
@@ -20,12 +19,6 @@ const Home = () => {
             pages: [
                 { name: "Agendar", route: "/agendar" },
                 { name: "Minha agenda", route: "/minha-agenda" },
-            ],
-        },
-        {
-            pages: [
-                { name: "Perfil", route: "/" },
-                { name: "Notícias", route: "/" },
             ],
         },
     ];
@@ -101,14 +94,6 @@ const Home = () => {
                                                         ) : page.name ===
                                                           "Minha agenda" ? (
                                                             <MenuBookOutlined
-                                                                sx={{
-                                                                    fontSize:
-                                                                        "5rem",
-                                                                }}
-                                                            />
-                                                        ) : page.name ===
-                                                          "Perfil" ? (
-                                                            <PersonOutlineOutlined
                                                                 sx={{
                                                                     fontSize:
                                                                         "5rem",

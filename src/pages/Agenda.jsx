@@ -248,15 +248,39 @@ const Agenda = () => {
                                                             }}
                                                             gutterBottom
                                                             id={reserve.id}
-                                                        >{`Preço: ${parseFloat(
-                                                            reserve.preco
-                                                        ).toLocaleString(
-                                                            "pt-br",
-                                                            {
-                                                                style: "currency",
-                                                                currency: "BRL",
-                                                            }
-                                                        )}`}</Typography>
+                                                        >
+                                                            {" "}
+                                                            {reserve.precoMaximo
+                                                                ? `Preço: de ${parseFloat(
+                                                                      reserve.preco
+                                                                  ).toLocaleString(
+                                                                      "pt-br",
+                                                                      {
+                                                                          style: "currency",
+                                                                          currency:
+                                                                              "BRL",
+                                                                      }
+                                                                  )} a ${parseFloat(
+                                                                      reserve.precoMaximo
+                                                                  ).toLocaleString(
+                                                                      "pt-br",
+                                                                      {
+                                                                          style: "currency",
+                                                                          currency:
+                                                                              "BRL",
+                                                                      }
+                                                                  )}`
+                                                                : `Preço: ${parseFloat(
+                                                                      reserve.preco
+                                                                  ).toLocaleString(
+                                                                      "pt-br",
+                                                                      {
+                                                                          style: "currency",
+                                                                          currency:
+                                                                              "BRL",
+                                                                      }
+                                                                  )}`}
+                                                        </Typography>
                                                         <Typography
                                                             sx={{
                                                                 fontSize: 18,

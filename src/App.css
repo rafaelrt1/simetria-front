@@ -26,6 +26,7 @@ body, #root {
     border: 1px solid #c8c8c8;
     border-radius: 4px;
     margin: 10px 0;
+    background-color: #F1F1F1;
 }
 
 .image {
@@ -253,7 +254,6 @@ body, #root {
 .label-float input{
     border: 1px solid #DD9191;
     padding: 20px 30px 6px 10px;
-    /* border-bottom: 2px solid lightgrey; */
     outline: none;
     min-width: 180px;
     font-size: 16px;
@@ -386,9 +386,7 @@ body, #root {
     font-weight: 600;
 }
 .logout:hover {
-    /* background-color: #3F3D3D; */
     opacity: 0.9;
-    /* color: white; */
 }
 
 .user-login {
