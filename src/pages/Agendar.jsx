@@ -635,7 +635,9 @@ const Agendar = () => {
                         </div>
                     </form>
                 ) : (
-                    <NotAllowed />
+                    <NotAllowed
+                        type={accessDenied ? "unauthorized" : "access-error"}
+                    />
                 )}
             </div>
             <Footer></Footer>
