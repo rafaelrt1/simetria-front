@@ -155,7 +155,9 @@ const Register = () => {
                             name="fullname"
                         ></Controller>
                         {errors.fullname && (
-                            <p className="errorMessage">Preencha este campo</p>
+                            <span className="errorMessage">
+                                Preencha este campo
+                            </span>
                         )}
                     </div>
 
@@ -185,7 +187,9 @@ const Register = () => {
                             name="email"
                         ></Controller>
                         {errors.email && (
-                            <p className="errorMessage">Preencha este campo</p>
+                            <span className="errorMessage">
+                                Preencha este campo
+                            </span>
                         )}
                     </div>
 
@@ -213,7 +217,9 @@ const Register = () => {
                             name="cellphone"
                         ></Controller>
                         {errors.cellphone && (
-                            <p className="errorMessage">Preencha este campo</p>
+                            <span className="errorMessage">
+                                Preencha este campo
+                            </span>
                         )}
                     </div>
 
@@ -241,9 +247,9 @@ const Register = () => {
                                     {visiblePassword ? (
                                         <VisibilityOffIcon
                                             sx={{
-                                                position: "relative",
+                                                position: "absolute",
                                                 left: "calc(95% - 12px)",
-                                                bottom: "34px",
+                                                top: "25px",
                                                 cursor: "pointer",
                                             }}
                                             onClick={() => {
@@ -253,9 +259,9 @@ const Register = () => {
                                     ) : (
                                         <VisibilityIcon
                                             sx={{
-                                                position: "relative",
+                                                position: "absolute",
                                                 left: "calc(95% - 12px)",
-                                                bottom: "34px",
+                                                top: "25px",
                                                 cursor: "pointer",
                                             }}
                                             onClick={() => {
@@ -268,7 +274,9 @@ const Register = () => {
                             name="password"
                         ></Controller>
                         {errors.password && (
-                            <p className="errorMessage">Preencha este campo</p>
+                            <span className="errorMessage">
+                                Preencha este campo
+                            </span>
                         )}
                     </div>
 
