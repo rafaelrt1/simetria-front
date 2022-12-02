@@ -214,10 +214,15 @@ const Agenda = () => {
                                                 elevation={3}
                                                 key={reserve.id}
                                                 id={reserve.id}
+                                                sx={{ width: "300px" }}
                                             >
                                                 <Card
                                                     sx={{
-                                                        // minWidth: 275,
+                                                        height: "100%",
+                                                        justifyContent:
+                                                            "space-between",
+                                                        display: "flex",
+                                                        flexDirection: "column",
                                                         boxShadow: 0,
                                                     }}
                                                     id={reserve.id}
@@ -517,7 +522,9 @@ const Agenda = () => {
                         ) : null}
                     </>
                 ) : (
-                    <NotAllowed />
+                    <NotAllowed
+                        type={accessDenied ? "unauthorized" : "access-error"}
+                    />
                 )}
             </div>
             <Footer></Footer>

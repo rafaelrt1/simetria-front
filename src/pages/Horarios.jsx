@@ -374,7 +374,9 @@ const Horarios = () => {
                         </Modal>
                     </div>
                 ) : (
-                    <NotAllowed />
+                    <NotAllowed
+                        type={accessDenied ? "unauthorized" : "access-error"}
+                    />
                 )}
             </div>
             <Footer></Footer>

@@ -119,7 +119,11 @@ const Home = () => {
                             })}
                         </div>
                     ) : (
-                        <NotAllowed />
+                        <NotAllowed
+                            type={
+                                accessDenied ? "unauthorized" : "access-error"
+                            }
+                        />
                     )}
                 </div>
             </div>

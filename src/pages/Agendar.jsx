@@ -263,9 +263,6 @@ const Agendar = () => {
                                 </span>
                             )}
 
-                            {/* <Controller> */}
-                            {/* control={control}
-            render={({ field: { onChange, onBlur, value } }) => ( */}
                             <FormControl
                                 sx={{
                                     m: 1,
@@ -351,9 +348,6 @@ const Agendar = () => {
                                         : null}
                                 </Select>
                             </FormControl>
-                            {/* )} */}
-                            {/* name="professional" > */}
-                            {/* </Controller> */}
 
                             <Controller
                                 control={control}
@@ -551,27 +545,27 @@ const Agendar = () => {
                                                 }
                                             )}
                                         </h3>
-                                        {serviceSelected.precoMaximo ? (
-                                            <Typography sx={{ p: 2 }}>
-                                                O preço pode variar de{" "}
-                                                {serviceSelected.precoMinimo.toLocaleString(
-                                                    "pt-br",
-                                                    {
-                                                        style: "currency",
-                                                        currency: "BRL",
-                                                    }
-                                                )}{" "}
-                                                a{" "}
-                                                {serviceSelected.precoMaximo.toLocaleString(
-                                                    "pt-br",
-                                                    {
-                                                        style: "currency",
-                                                        currency: "BRL",
-                                                    }
-                                                )}
-                                            </Typography>
-                                        ) : null}
                                     </div>
+                                    {serviceSelected.precoMaximo ? (
+                                        <Typography>
+                                            O preço pode variar de{" "}
+                                            {serviceSelected.precoMinimo.toLocaleString(
+                                                "pt-br",
+                                                {
+                                                    style: "currency",
+                                                    currency: "BRL",
+                                                }
+                                            )}{" "}
+                                            a{" "}
+                                            {serviceSelected.precoMaximo.toLocaleString(
+                                                "pt-br",
+                                                {
+                                                    style: "currency",
+                                                    currency: "BRL",
+                                                }
+                                            )}
+                                        </Typography>
+                                    ) : null}
                                     <div className="summary-prices">
                                         <h4>Tempo: </h4>
                                         <h4>
