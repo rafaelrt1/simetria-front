@@ -45,21 +45,75 @@ const Agendar = () => {
     const [nameProfessionalSelected, setNameProfessionalSelected] = useState();
     const [options, setOptions] = useState([]);
     const [accessDenied, setAcessDenied] = useState();
+    const [holidays, setHolidays] = useState([]);
+    const [year, setYear] = useState("");
+
+    const CITY_AND_STATE_DEFAULT_HOLIDAYS = ["04-11", "09-20", "01-20"];
+
+    const getHolidays = async (year) => {
+        try {
+            if (isNaN(parseInt(year)) || year.toString().length !== 4) {
+                return;
+            }
+            const response = await fetch(
+                `https://brasilapi.com.br/api/feriados/v1/${year}`,
+                {
+                    method: "GET",
+                    mode: "cors",
+                    headers: {
+                        Authorization: `${searchContext.stateLogin.session}`,
+                        Accept: "application/json",
+                        "Content-Type": "application/json;charset=UTF-8",
+                    },
+                }
+            );
+            const result = await response.json();
+            setYear(parseInt(year));
+            const holidays = result.map((holiday) => {
+                return (
+                    holiday.date.split("-")[1] +
+                    "-" +
+                    holiday.date.split("-")[2]
+                );
+            });
+            CITY_AND_STATE_DEFAULT_HOLIDAYS.forEach((holiday) => {
+                holidays.push(holiday);
+            });
+            setHolidays(holidays);
+        } catch (e) {
+            console.error("Erro ao buscar os feriados nacionais", e);
+        }
+    };
+
+    const isHoliday = (date) => {
+        let formattedDate =
+            parseInt(date.getMonth() + 1).toLocaleString("en-US", {
+                minimumIntegerDigits: 2,
+            }) +
+            "-" +
+            parseInt(date.getDate()).toLocaleString("en-US", {
+                minimumIntegerDigits: 2,
+            });
+        return holidays.indexOf(formattedDate) > -1;
+    };
 
     const isValidDate = () => {
         let date = getValues("date");
-        return date >= new Date().setHours(0, 0, 0, 0) && date.getDay() !== 0;
+        getHolidays(new Date(date).getFullYear());
+        return (
+            date >= new Date().setHours(0, 0, 0, 0) &&
+            date.getDay() !== 0 &&
+            !isHoliday(date)
+        );
     };
 
     const getInitialDate = () => {
         let today = new Date().getDay();
-        if (today !== 0) return new Date();
-        else if (today === 0) {
+        if (today !== 0) {
+            return new Date();
+        } else if (today === 0) {
             return new Date(new Date().valueOf() + 1000 * 3600 * 24);
         }
-        //  else if (today === 1) {
-        //     return new Date(new Date().valueOf() + 1000 * 3600 * 24);
-        // }
     };
 
     const {
@@ -71,6 +125,7 @@ const Agendar = () => {
         getValues,
         formState: { errors },
     } = useForm({
+        mode: "onChange",
         defaultValues: {
             date: getInitialDate(),
             service: "",
@@ -78,7 +133,11 @@ const Agendar = () => {
     });
 
     const isNotAvailable = (date) => {
-        return date.getDay() === 0;
+        // if (year && date.getFullYear() !== year) {
+        //     setYear(date.getFullYear());
+        //     getHolidays(date.getFullYear());
+        // }
+        return date.getDay() === 0 || isHoliday(date);
     };
 
     const separateServicesProfessional = (services) => {
@@ -167,6 +226,18 @@ const Agendar = () => {
 
     useEffect(() => {
         getServices();
+        let today = new Date().getDay();
+        if (today !== 0) {
+            setYear(new Date().getFullYear());
+            getHolidays(new Date().getFullYear());
+        } else if (today === 0) {
+            setYear(
+                new Date(new Date().valueOf() + 1000 * 3600 * 24).getFullYear()
+            );
+            getHolidays(
+                new Date(new Date().valueOf() + 1000 * 3600 * 24).getFullYear()
+            );
+        }
         // eslint-disable-next-line
     }, []);
 
@@ -210,6 +281,27 @@ const Agendar = () => {
                                                     theme={themeDefalut}
                                                 >
                                                     <DatePicker
+                                                        onYearChange={(
+                                                            year
+                                                        ) => {
+                                                            getHolidays(
+                                                                year.getFullYear()
+                                                            );
+                                                        }}
+                                                        leftArrowButtonText="Mês anterior"
+                                                        rightArrowButtonText="Próximo mês"
+                                                        onMonthChange={(
+                                                            month
+                                                        ) => {
+                                                            if (
+                                                                month.getFullYear() !==
+                                                                year
+                                                            ) {
+                                                                getHolidays(
+                                                                    month.getFullYear()
+                                                                );
+                                                            }
+                                                        }}
                                                         dayOfWeekFormatter={(
                                                             day
                                                         ) => daysOfWeek[day]}

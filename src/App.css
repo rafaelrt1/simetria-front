@@ -207,7 +207,6 @@ body, #root {
     color: #A7050C;
     font-weight: bold;
     font-size: 14px;
-    margin: 0 0 20px;
     display: flex;
     width: 100%;
 }
@@ -248,7 +247,6 @@ body, #root {
     padding-top: 13px;
     width: 80%;
     max-width: 500px;
-    margin-bottom: 20px;
 }
 
 .label-float input{
@@ -262,6 +260,7 @@ body, #root {
     -moz-transition: all .3s ease-out;
     border-radius: 10px;
     width: calc(100% - 40px);
+    margin-bottom: 20px;
 }
 
 .label-float input:focus{
@@ -385,6 +384,7 @@ body, #root {
     padding: 5px;
     border-radius: 3px;
     font-weight: 600;
+    border: 0;
 }
 .logout:hover {
     opacity: 0.9;

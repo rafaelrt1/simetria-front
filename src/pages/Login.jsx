@@ -238,9 +238,9 @@ const Login = () => {
                                 name="email"
                             ></Controller>
                             {errors.email && (
-                                <p className="errorMessage">
+                                <span className="errorMessage">
                                     Preencha este campo
-                                </p>
+                                </span>
                             )}
                         </div>
 
@@ -268,9 +268,9 @@ const Login = () => {
                                         {visiblePassword ? (
                                             <VisibilityOffIcon
                                                 sx={{
-                                                    position: "relative",
+                                                    position: "absolute",
                                                     left: "calc(95% - 12px)",
-                                                    bottom: "34px",
+                                                    top: "25px",
                                                     cursor: "pointer",
                                                 }}
                                                 onClick={() => {
@@ -280,9 +280,9 @@ const Login = () => {
                                         ) : (
                                             <VisibilityIcon
                                                 sx={{
-                                                    position: "relative",
+                                                    position: "absolute",
                                                     left: "calc(95% - 12px)",
-                                                    bottom: "34px",
+                                                    top: "25px",
                                                     cursor: "pointer",
                                                 }}
                                                 onClick={() => {
@@ -295,9 +295,9 @@ const Login = () => {
                                 name="password"
                             ></Controller>
                             {errors.password && (
-                                <p className="errorMessage">
+                                <span className="errorMessage">
                                     Preencha este campo
-                                </p>
+                                </span>
                             )}
                         </div>
                         {visibleLoader ? <CircularProgress /> : null}
