@@ -200,7 +200,7 @@ const Horarios = () => {
                     hideTime={6000}
                 ></FeedbackMessage>
                 {accessDenied === undefined ? null : !accessDenied ? (
-                    <div className="background">
+                    <>
                         {availability?.error ? (
                             <h3>{availability.error}</h3>
                         ) : (
@@ -372,7 +372,7 @@ const Horarios = () => {
                                 )}
                             </Box>
                         </Modal>
-                    </div>
+                    </>
                 ) : (
                     <NotAllowed
                         type={accessDenied ? "unauthorized" : "access-error"}
