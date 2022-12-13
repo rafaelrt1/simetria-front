@@ -349,14 +349,7 @@ const Agenda = () => {
                                                                             ></PixIcon>
                                                                         </LoadingButton>
                                                                     </div>
-                                                                ) : (
-                                                                    <div className="tag-paid">
-                                                                        <span>
-                                                                            Pago
-                                                                        </span>
-                                                                        <PaidIcon></PaidIcon>
-                                                                    </div>
-                                                                )}
+                                                                ) : null}
                                                             </>
                                                         ) : null}
                                                         {!reserve.pago &&
@@ -397,6 +390,16 @@ const Agenda = () => {
                                                                     Cancelar
                                                                 </Button>
                                                             )}
+                                                        {Boolean(
+                                                            reserve.pago
+                                                        ) && (
+                                                            <div className="tag-paid">
+                                                                <span>
+                                                                    Pago
+                                                                </span>
+                                                                <PaidIcon></PaidIcon>
+                                                            </div>
+                                                        )}
                                                     </CardActions>
                                                 </Card>
                                             </Paper>
